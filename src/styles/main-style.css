@@ -1,65 +1,74 @@
 /* ===== IMPORT FONTS ===== */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
 
-/* ===== VARIABLES ===== */
+/* ===== CSS VARIABLES ===== */
 :root {
-  --nav-bg: #faf8f4;
-  --hero-bg: #8fac6e;
-  --products-bg: #e8c9a0;
-  --reviews-bg: #f5ede3;
-  --contact-bg: #2c2c2c;
-  --accent: #d4793a;
-  --accent-hover: #b85e25;
-  --white: #ffffff;
-  --text-dark: #2c2c2c;
-  --text-muted: #555;
-  --font-heading: 'Playfair Display', Georgia, serif;
-  --font-body: 'Lato', sans-serif;
+  --nav-bg:        #faf8f4;
+  --hero-bg:       #8fac6e;
+  --products-bg:   #c9956a;
+  --reviews-bg:    #f0e6d8;
+  --contact-bg:    #3b3228;
+  --accent:        #d4793a;
+  --accent-hover:  #b85e25;
+  --white:         #ffffff;
+  --card-bg:       #e8c9a0;
+  --text-dark:     #2c2c2c;
+  --text-muted:    #5a4a3a;
+  --font-heading:  'Playfair Display', Georgia, serif;
+  --font-body:     'Lato', sans-serif;
+  --radius:        6px;
+  --shadow-sm:     0 2px 8px rgba(0,0,0,.10);
+  --shadow-md:     0 6px 22px rgba(0,0,0,.16);
+  --transition:    .22s ease;
 }
 
-*, *::before, *::after { 
-    box-sizing: border-box; margin: 0; padding: 0; 
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--white);
 }
 
-body { 
-    font-family: var(--font-body); color: var(--text-dark); 
-}
-
-/* ===== NAV ===== */
+/* ============================================================
+   NAV
+   ============================================================ */
 nav {
   background: var(--nav-bg);
-  height: 52px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 36px;
-  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  box-shadow: 0 1px 5px rgba(0,0,0,.08);
   position: sticky;
   top: 0;
-  z-index: 200;
+  z-index: 999;
 }
 
-nav h1 {
+nav h1 a {
   font-family: var(--font-heading);
   font-size: 1.1rem;
   font-weight: 700;
+  color: var(--text-dark);
+  text-decoration: none;
+  letter-spacing: .02em;
 }
 
-nav h1 a{
-    text-decoration: none;
-    color: var(--text-dark);
-}
-
-nav ul { 
-    list-style: none; display: flex; gap: 28px; 
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 28px;
 }
 
 nav ul li a {
   text-decoration: none;
-  font-size: .85rem;
+  font-size: .82rem;
   color: var(--text-muted);
+  letter-spacing: .03em;
   position: relative;
-  transition: color .2s;
+  transition: color var(--transition);
 }
 
 nav ul li a::after {
@@ -68,41 +77,74 @@ nav ul li a::after {
   bottom: -3px; left: 0;
   width: 0; height: 1.5px;
   background: var(--accent);
-  transition: width .2s;
+  transition: width var(--transition);
 }
 
-nav ul li a:hover { 
-    color: var(--accent); 
+nav ul li a:hover { color: var(--accent); }
+nav ul li a:hover::after { width: 100%; }
+
+/* ============================================================
+   SHARED BUTTON
+   ============================================================ */
+button {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: .88rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: 10px 28px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(212,121,58,.30);
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
-nav ul li a:hover::after { 
-    width: 100%; 
+button a {
+  color: var(--white);
+  text-decoration: none;
 }
 
-/* ===== HERO ===== */
+button:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(184,94,37,.40);
+}
+
+button:active { transform: translateY(0); }
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
 .Hero {
   background: var(--hero-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 48px;
-  padding: 52px 40px;
+  padding: 52px 48px 24px;
   flex-wrap: wrap;
+  position: relative;
 }
 
-.left-side {
+.Hero .left-side {
   flex-shrink: 0;
-  width: 260px;
-  border-radius: 4px;
+  width: 270px;
+  border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 8px 28px rgba(0,0,0,.22);
+  box-shadow: var(--shadow-md);
 }
 
-.left-side img { 
-    width: 100%; height: auto; display: block; object-fit: cover; 
+.Hero .left-side img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
-.right-side {
+.Hero .right-side {
   max-width: 340px;
   display: flex;
   flex-direction: column;
@@ -111,23 +153,51 @@ nav ul li a:hover::after {
   gap: 14px;
 }
 
-.right-side h1 {
+.Hero .right-side h1 {
   font-family: var(--font-heading);
   font-size: 2rem;
   font-weight: 700;
+  color: var(--text-dark);
   line-height: 1.2;
 }
 
-.right-side p { 
-    font-size: .88rem; line-height: 1.78; 
+.Hero .right-side p {
+  font-size: .87rem;
+  line-height: 1.8;
+  color: var(--text-dark);
 }
 
-/* ===== CAROUSEL DOTS ===== */
+/* Button is a direct child of .Hero, centered below the two divs */
+.Hero > button {
+  flex-basis: 100%;          /* force onto its own row */
+  display: flex;
+  justify-content: center;
+  background: transparent;
+  box-shadow: none;
+  padding: 0 0 8px;
+  pointer-events: none;      /* wrapper row itself not clickable */
+}
+
+/* But we want the real button clickable — override for direct button */
+.Hero > button {
+  flex-basis: auto;
+  display: inline-block;
+  pointer-events: auto;
+  background: var(--accent);
+  box-shadow: 0 3px 10px rgba(212,121,58,.30);
+  padding: 10px 28px;
+  /* push it below the two side divs by making it full-width flex row */
+  order: 3;
+  margin-top: 0;
+  align-self: center;
+}
+
+/* Dots row (add .dots div in HTML below .Hero) */
 .dots {
   display: flex;
   justify-content: center;
   gap: 9px;
-  padding: 14px 0 20px;
+  padding: 18px 0 22px;
   background: var(--hero-bg);
 }
 
@@ -135,219 +205,288 @@ nav ul li a:hover::after {
   width: 11px; height: 11px;
   border-radius: 50%;
   border: none; cursor: pointer;
-  background: #ccc;
-  transition: background .2s, transform .2s;
+  background: rgba(255,255,255,.55);
+  transition: background var(--transition), transform var(--transition);
+  padding: 0;
+  box-shadow: none;
 }
 
-.dot.active { 
-    background: var(--accent); transform: scale(1.15); 
-}
-
-/* ===== SHARED BUTTON ===== */
-.btn {
-  display: inline-block;
+.dot.active {
   background: var(--accent);
-  color: var(--white);
-  font-family: var(--font-body);
-  font-size: .9rem;
-  font-weight: 700;
-  letter-spacing: .04em;
-  padding: 11px 32px;
-  border: none;
-  border-radius: 7px;
-  cursor: pointer;
-  text-decoration: none;
-  box-shadow: 0 4px 12px rgba(212,121,58,.35);
-  transition: background .2s, transform .2s, box-shadow .2s;
+  transform: scale(1.18);
 }
 
-.btn:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(184,94,37,.45);
-}
+.dot:hover { background: var(--accent-hover); transform: translateY(0) scale(1.1); }
 
-.btn:active { transform: translateY(0); }
-
-/* ===== PRODUCTS ===== */
+/* ============================================================
+   PRODUCTS SECTION
+   ============================================================ */
 .products {
   background: var(--products-bg);
-  padding: 48px 36px;
-}
-
-.products-grid {
+  padding: 0 32px 48px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 24px;
+}
+
+.products-inner {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;       /* ← horizontal layout */
+  gap: 18px;
   justify-content: center;
-  flex-wrap: wrap;
-  max-width: 960px;
-  margin: 0 auto;
-}
-
-.product-card {
-  background: var(--white);
-  border-radius: 6px;
-  width: 260px;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,.1);
-  display: flex;
-  flex-direction: column;
-}
-
-.product-card img {
+  flex-wrap: wrap;           /* wraps on smaller screens */
   width: 100%;
-  height: 160px;
-  object-fit: cover;
-  display: block;
 }
 
-.product-card-body {
-  padding: 16px;
+/* Individual cards — card-1, card-2, card-3 share same style */
+.card-1,
+.card-2,
+.card-3 {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  width: 230px;
+  min-height: 200px;
+  padding: 18px 16px 16px;
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  flex: 1;
+  gap: 9px;
+  flex: 1;                   /* ← allows equal width sharing */
+  min-width: 180px;          /* ← prevents cards from shrinking too small */
+  max-width: 260px;
 }
 
-.product-card-body h3 {
+.card-1 h2, .card-2 h2, .card-3 h2 {
   font-family: var(--font-heading);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
+  color: var(--text-dark);
 }
 
-.product-card-body p {
+.card-1 p,
+.card-2 p,
+.card-3 p {
   font-size: .82rem;
   line-height: 1.65;
   color: var(--text-muted);
   flex: 1;
 }
 
-/* ===== REVIEWS ===== */
+.card-1 button,
+.card-2 button,
+.card-3 button {
+  align-self: flex-start;
+  font-size: .82rem;
+  padding: 9px 22px;
+}
+
+/* ============================================================
+   REVIEWS SECTION
+   ============================================================ */
 .reviews {
   background: var(--reviews-bg);
-  padding: 52px 36px;
-}
-
-.reviews h2 {
-  font-family: var(--font-heading);
-  font-size: 1.6rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 36px;
-  letter-spacing: .02em;
-}
-
-.reviews-grid {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 860px;
-  margin: 0 auto 36px;
-}
-
-.review-card {
-  background: var(--white);
-  border-radius: 6px;
-  max-width: 360px;
-  flex: 1;
-  min-width: 240px;
-  padding: 24px;
-  box-shadow: 0 4px 14px rgba(0,0,0,.08);
+  padding: 52px 40px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  align-items: center;
+  gap: 28px;
 }
 
-.review-card p { 
-    font-size: .85rem; line-height: 1.75; color: var(--text-muted); 
+.reviews h1 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-dark);
 }
 
-.review-card .author { 
-    font-size: .82rem; font-weight: 700; color: var(--text-dark); 
+/* THIS makes the two boxes go horizontal */
+.reviews-inner {
+  display: flex;
+  flex-direction: row;      /* ← horizontal */
+  gap: 28px;
+  justify-content: center;
+  flex-wrap: wrap;          /* wraps on mobile */
+  width: 100%;
+  max-width: 860px;
 }
 
-.reviews-cta { 
-    text-align: center; 
+.box-1,
+.box-2 {
+  background: var(--white);
+  border-radius: var(--radius);
+  flex: 1;                  /* equal width */
+  min-width: 240px;         /* won't shrink too small */
+  max-width: 380px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-/* ===== CONTACT ===== */
+.box-1 p,
+.box-2 p {
+  font-size: .85rem;
+  line-height: 1.78;
+  color: var(--text-muted);
+}
+
+/* Author line "-John" / "-Paul" */
+.box-1 p:last-child,
+.box-2 p:last-child {
+  font-weight: 700;
+  font-size: .82rem;
+  color: var(--text-dark);
+  margin-top: auto;         /* pushes author to bottom of card */
+}
+
+/* ============================================================
+   CONTACT SECTION
+   ============================================================ */
 .contact {
   background: var(--contact-bg);
   display: flex;
-  gap: 48px;
+  gap: 52px;
   flex-wrap: wrap;
   padding: 52px 48px;
   align-items: flex-start;
   justify-content: center;
 }
 
-.contact-info { 
-    color: var(--white); display: flex; flex-direction: column; gap: 12px; min-width: 200px; 
-}
-.contact-info h2 { 
-    font-family: var(--font-heading); font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; 
-}
-
-.contact-info p { 
-    font-size: .85rem; line-height: 1.7; opacity: .85; 
-}
-
-.contact-info .social { 
-    display: flex; gap: 12px; margin-top: 8px; 
-}
-
-.contact-info .social a {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: var(--accent);
-  display: flex; align-items: center; justify-content: center;
+/* NOTE: in your HTML the info div is .right-side and form div is .left-side
+   We style by their parent context so there's no conflict with .Hero's sides */
+.contact .right-side {
   color: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 190px;
+  max-width: 240px;
+}
+
+.contact .right-side h2 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.contact .right-side address {
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact .right-side address p,
+.contact .right-side > p {
+  font-size: .84rem;
+  line-height: 1.7;
+  opacity: .85;
+}
+
+.contact .right-side address a {
+  color: rgba(255,255,255,.8);
   text-decoration: none;
-  font-size: .75rem; font-weight: 700;
-  transition: background .2s, transform .2s;
+  transition: color var(--transition);
 }
 
-.contact-info .social a:hover { 
-    background: var(--accent-hover); transform: scale(1.1); 
+.contact .right-side address a:hover { color: var(--accent); }
+
+/* Social icon */
+.contact .right-side img {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle;
+  margin-right: 8px;
 }
 
-.contact-form { 
-    display: flex; flex-direction: column; gap: 12px; min-width: 220px; max-width: 280px; flex: 1; 
+.contact .right-side a {
+  color: rgba(255,255,255,.75);
+  font-size: .84rem;
+  text-decoration: none;
+  transition: color var(--transition);
 }
 
-.contact-form input, .contact-form textarea {
+.contact .right-side a:hover { color: var(--accent); }
+
+/* Form side */
+.contact .left-side {
+  min-width: 200px;
+  max-width: 260px;
+  flex: 1;
+}
+
+.contact .left-side form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact .left-side form label {
+  display: none; /* labels hidden per design; inputs use placeholders */
+}
+
+.contact .left-side form input,
+.contact .left-side form textarea {
   width: 100%;
   padding: 10px 14px;
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: 6px;
-  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,.12);
   color: var(--white);
   font-family: var(--font-body);
   font-size: .85rem;
   outline: none;
-  transition: border .2s, background .2s;
   resize: none;
-}
-.contact-form input::placeholder, .contact-form textarea::placeholder { 
-    color: rgba(255,255,255,.5); 
+  transition: border var(--transition), background var(--transition);
 }
 
-.contact-form input:focus, .contact-form textarea:focus {
+.contact .left-side form input::placeholder,
+.contact .left-side form textarea::placeholder {
+  color: rgba(255,255,255,.5);
+}
+
+.contact .left-side form input:focus,
+.contact .left-side form textarea:focus {
   border-color: var(--accent);
-  background: rgba(255,255,255,.15);
+  background: rgba(255,255,255,.18);
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 700px) {
+/* Treat the three inputs as Name / Email / Order message */
+.contact .left-side form input[name="name"]    { }
+.contact .left-side form input[name="email"]   { }
+.contact .left-side form input[name="message"] { }
+
+.contact .left-side form button {
+  align-self: flex-start;
+  padding: 10px 26px;
+  font-size: .85rem;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 720px) {
   nav { padding: 0 18px; }
   nav ul { gap: 14px; }
-  .Hero { flex-direction: column; padding: 36px 20px; gap: 28px; }
-  .left-side { width: 100%; max-width: 300px; }
-  .right-side { max-width: 100%; }
-  .products { padding: 36px 18px; }
-  .product-card { width: 100%; max-width: 320px; }
+
+  .Hero { flex-direction: column; padding: 36px 20px 18px; gap: 24px; }
+  .Hero .left-side { width: 100%; max-width: 300px; }
+  .Hero .right-side { max-width: 100%; }
+
+  .products { padding: 0 16px 36px; }
+  .card-1, .card-2, .card-3 { width: 100%; max-width: 320px; }
+
   .reviews { padding: 36px 18px; }
-  .contact { flex-direction: column; padding: 36px 20px; }
-  .contact-form { max-width: 100%; }
+  .box-1, .box-2 { max-width: 100%; }
+
+  .contact { flex-direction: column; padding: 36px 20px; gap: 32px; }
+  .contact .right-side,
+  .contact .left-side { max-width: 100%; }
 }
