@@ -3,23 +3,24 @@
 
 /* ===== CSS VARIABLES ===== */
 :root {
-  --nav-bg:        #faf8f4;
-  --hero-bg:       #8fac6e;
-  --products-bg:   #c9956a;
-  --reviews-bg:    #f0e6d8;
-  --contact-bg:    #3b3228;
-  --accent:        #d4793a;
-  --accent-hover:  #b85e25;
-  --white:         #ffffff;
-  --card-bg:       #e8c9a0;
-  --text-dark:     #2c2c2c;
-  --text-muted:    #5a4a3a;
-  --font-heading:  'Playfair Display', Georgia, serif;
-  --font-body:     'Lato', sans-serif;
-  --radius:        6px;
-  --shadow-sm:     0 2px 8px rgba(0,0,0,.10);
-  --shadow-md:     0 6px 22px rgba(0,0,0,.16);
-  --transition:    .22s ease;
+  --nav-bg:       #faf8f4;
+  --hero-bg:      #8fac6e;
+  --products-bg:  #c9956a;
+  --reviews-bg:   #f0e6d8;
+  --contact-bg:   #3b3228;
+  --accent:       #d4793a;
+  --accent-hover: #b85e25;
+  --white:        #ffffff;
+  --card-bg:      #e8c9a0;
+  --text-dark:    #2c2c2c;
+  --text-muted:   #5a4a3a;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body:    'Lato', sans-serif;
+  --radius:       6px;
+  --shadow-sm:    0 2px 8px rgba(0,0,0,.10);
+  --shadow-md:    0 6px 22px rgba(0,0,0,.16);
+  --transition:   .22s ease;
+  --max-w:        1100px;        /* single source of truth for centering */
 }
 
 /* ===== RESET ===== */
@@ -113,26 +114,30 @@ button:hover {
   box-shadow: 0 5px 16px rgba(184,94,37,.40);
 }
 
-button:active { 
-  transform: translateY(0); 
-}
+button:active { transform: translateY(0); }
 
 /* ============================================================
-   HERO SECTION
+   HERO
    ============================================================ */
 .Hero {
   background: var(--hero-bg);
+  padding: 48px 24px;
+}
+
+/* inner wrapper — centers content with max-width */
+.hero-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
   display: flex;
-  flex-direction: row;           /* image left, content right */
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 48px;
-  padding: 40px 56px;
+  gap: 56px;
 }
 
 .Hero .left-side {
   flex-shrink: 0;
-  width: 300px;
+  width: 320px;
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -146,10 +151,10 @@ button:active {
 }
 
 .Hero .right-side {
-  max-width: 360px;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
-  align-items: center;           /* centers h1, p, and button */
+  align-items: center;
   text-align: center;
   gap: 16px;
 }
@@ -169,118 +174,60 @@ button:active {
 }
 
 .Hero .right-side button {
-  background: var(--accent);
-  color: var(--white);
   padding: 12px 40px;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(212,121,58,.30);
-  transition: background var(--transition), transform var(--transition);
   margin-top: 6px;
 }
 
-.Hero .right-side button a {
-  color: var(--white);
-  text-decoration: none;
-  font-family: var(--font-body);
-  font-size: .95rem;
-  font-weight: 700;
-  letter-spacing: .04em;
-}
-
-.Hero .right-side button:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-}
-
-.Hero .right-side button:active { transform: translateY(0); }
-
-/* DOTS */
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: 9px;
-  padding: 18px 0 22px;
-  background: var(--hero-bg);
-}
-
-.dot {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  background: rgba(255,255,255,.55);
-  padding: 0;
-  box-shadow: none;
-  transition: background var(--transition), transform var(--transition);
-}
-
-.dot.active {
-  background: var(--accent);
-  transform: scale(1.18);
-}
-
-.dot:hover { background: var(--accent-hover); }
-
-/* RESPONSIVE — stack on mobile */
-@media (max-width: 680px) {
-  .Hero {
-    flex-direction: column;
-    padding: 36px 24px;
-    gap: 24px;
-  }
-
-  .Hero .left-side {
-    width: 100%;
-    max-width: 320px;
-  }
-
-  .Hero .right-side {
-    max-width: 100%;
-  }
-}/* ============================================================
-   PRODUCTS SECTION
+/* ============================================================
+   PRODUCTS
    ============================================================ */
 .products {
   background: var(--products-bg);
-  padding: 0 32px 48px;
+  padding: 48px 24px;
+}
+
+/* inner wrapper — centers with max-width */
+.products-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 28px;
 }
 
-.tab h1{
-  margin-top: 2rem;
+.products-inner h1 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--text-dark);
 }
 
-.products-inner {
+/* cards row */
+.cards {
   display: flex;
-  flex-direction: row;       /* ← horizontal layout */
-  gap: 18px;
+  flex-direction: row;
+  gap: 24px;
   justify-content: center;
-  flex-wrap: wrap;           /* wraps on smaller screens */
+  flex-wrap: wrap;
   width: 100%;
 }
 
-/* Individual cards — card-1, card-2, card-3 share same style */
 .card-1,
 .card-2,
 .card-3 {
   background: var(--card-bg);
   border-radius: var(--radius);
-  width: 230px;
-  min-height: 200px;
-  padding: 18px 16px 16px;
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+  min-height: 220px;
+  padding: 20px 18px;
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: 9px;
-  flex: 1;                   /* ← allows equal width sharing */
-  min-width: 180px;          /* ← prevents cards from shrinking too small */
-  max-width: 260px;
+  gap: 10px;
 }
 
 .card-1 h2, .card-2 h2, .card-3 h2 {
@@ -297,53 +244,55 @@ button:active {
   flex: 1;
 }
 
-.card-1 button,
-.card-2 button,
-.card-3 button {
+.card-1 button, .card-2 button, .card-3 button {
   align-self: flex-start;
   font-size: .82rem;
   padding: 9px 22px;
 }
 
 /* ============================================================
-   REVIEWS SECTION
+   REVIEWS
    ============================================================ */
 .reviews {
   background: var(--reviews-bg);
-  padding: 52px 40px;
+  padding: 52px 24px;
+}
+
+/* inner wrapper */
+.reviews-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 28px;
 }
 
-.reviews h1 {
+.reviews-inner h1 {
   font-family: var(--font-heading);
   font-size: 1.5rem;
   font-weight: 700;
-  letter-spacing: .08em;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--text-dark);
 }
 
-/* THIS makes the two boxes go horizontal */
-.reviews-inner {
+.reviews-boxes {
   display: flex;
-  flex-direction: row;      /* ← horizontal */
+  flex-direction: row;
   gap: 28px;
   justify-content: center;
-  flex-wrap: wrap;          /* wraps on mobile */
+  flex-wrap: wrap;
   width: 100%;
-  max-width: 860px;
 }
 
 .box-1,
 .box-2 {
   background: var(--white);
   border-radius: var(--radius);
-  flex: 1;                  /* equal width */
-  min-width: 240px;         /* won't shrink too small */
-  max-width: 380px;
+  flex: 1;
+  min-width: 240px;
+  max-width: 420px;
   padding: 24px;
   box-shadow: var(--shadow-sm);
   display: flex;
@@ -351,163 +300,136 @@ button:active {
   gap: 16px;
 }
 
-.box-1 p,
-.box-2 p {
+.box-1 p, .box-2 p {
   font-size: .85rem;
   line-height: 1.78;
   color: var(--text-muted);
 }
 
-/* Author line "-John" / "-Paul" */
-.box-1 p:last-child,
-.box-2 p:last-child {
+.box-1 p:last-child, .box-2 p:last-child {
   font-weight: 700;
   font-size: .82rem;
   color: var(--text-dark);
-  margin-top: auto;         /* pushes author to bottom of card */
+  margin-top: auto;
 }
 
 /* ============================================================
-   CONTACT SECTION
+   CONTACT
    ============================================================ */
-/* update this variable in your :root if not already set */
-/* --contact-bg: #3b2a1a; */
-
-/* CONTACT SECTION */
 .contact {
-    width: 100%;
-    min-width: 320px;
-    max-width: 1400px;
-
-    margin: auto;
-    padding: 40px;
-
-    background: #3b1f1b;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 50px;
-
-    flex-wrap: wrap;
+  background: var(--contact-bg);
+  padding: 48px 24px;
 }
 
-/* LEFT SIDE */
+/* inner wrapper */
+.contact-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 52px;
+  flex-wrap: wrap;
+}
+
 .contact-info {
-    flex: 1;
-    min-width: 250px;
-    color: white;
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 180px;
 }
 
 .contact-info h2 {
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 400;
-    margin-bottom: 20px;
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 4px;
 }
 
 .contact-info p {
-    font-size: 1.2rem;
-    margin-bottom: 12px;
-
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  font-size: .88rem;
+  line-height: 1.7;
+  opacity: .9;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .contact-info h3 {
-    font-size: 2rem;
-    font-weight: 400;
-    margin-top: 25px;
-    margin-bottom: 15px;
+  font-family: var(--font-body);
+  font-size: .95rem;
+  font-weight: 400;
+  margin-top: 8px;
 }
 
-/* FACEBOOK ICON */
 .fb-icon {
-    width: 50px;
-    height: 50px;
-
-    border-radius: 50%;
-    background: #d9d9d9;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    text-decoration: none;
-
-    transition: 0.3s;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #1877f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background var(--transition), transform var(--transition);
 }
 
-.fb-icon:hover {
-    transform: scale(1.08);
-}
+.fb-icon:hover { background: #145dbf; transform: scale(1.1); }
 
-.fb-icon svg {
-    fill: #222;
-}
-
-/* RIGHT SIDE */
 .contact-form-wrapper {
-    flex: 1;
-    min-width: 280px;
-    max-width: 550px;
-
-    background: #d9d9d9;
-    padding: 25px;
+  background: #d6cfc7;
+  border-radius: 12px;
+  padding: 24px;
+  min-width: 260px;
+  max-width: 340px;
+  flex: 1;
 }
 
-/* FORM */
 .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .contact-form input,
 .contact-form textarea {
-    width: 100%;
-
-    border: none;
-    outline: none;
-
-    background: #b89f9f;
-    color: white;
-
-    padding: 12px 18px;
-    border-radius: 12px;
-
-    font-size: 1rem;
+  width: 100%;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 20px;
+  background: #b8a89a;
+  color: var(--text-dark);
+  font-family: var(--font-body);
+  font-size: .88rem;
+  outline: none;
+  resize: none;
+  transition: background var(--transition), box-shadow var(--transition);
 }
 
 .contact-form input::placeholder,
 .contact-form textarea::placeholder {
-    color: white;
+  color: #5a4a3a;
+  opacity: .85;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  background: #c9b8ab;
+  box-shadow: 0 0 0 2px var(--accent);
 }
 
 .contact-form textarea {
-    resize: none;
-    height: 110px;
+  border-radius: 14px;
+  min-height: 90px;
 }
 
-/* BUTTON */
 .contact-form button {
-    width: 140px;
-
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-
-    background: #d68634;
-    color: white;
-
-    font-size: 1.2rem;
-    cursor: pointer;
-
-    transition: 0.3s;
-}
-
-.contact-form button:hover {
-    opacity: 0.9;
+  align-self: center;
+  padding: 11px 36px;
+  font-size: .88rem;
+  box-shadow: 0 3px 10px rgba(212,121,58,.30);
 }
 
 /* ============================================================
@@ -517,17 +439,16 @@ button:active {
   nav { padding: 0 18px; }
   nav ul { gap: 14px; }
 
-  .Hero { flex-direction: column; padding: 36px 20px 18px; gap: 24px; }
-  .Hero .left-side { width: 100%; max-width: 300px; }
+  .hero-inner { flex-direction: column; gap: 24px; }
+  .Hero .left-side { width: 100%; max-width: 320px; }
   .Hero .right-side { max-width: 100%; }
 
-  .products { padding: 0 16px 36px; }
-  .card-1, .card-2, .card-3 { width: 100%; max-width: 320px; }
+  .cards { flex-direction: column; align-items: center; }
+  .card-1, .card-2, .card-3 { max-width: 100%; }
 
-  .reviews { padding: 36px 18px; }
+  .reviews-boxes { flex-direction: column; align-items: center; }
   .box-1, .box-2 { max-width: 100%; }
 
-  .contact { flex-direction: column; padding: 36px 20px; gap: 32px; }
-  .contact .right-side,
-  .contact .left-side { max-width: 100%; }
+  .contact-inner { flex-direction: column; }
+  .contact-form-wrapper { max-width: 100%; }
 }
