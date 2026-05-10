@@ -19,70 +19,75 @@
 
     <section class="Hero">
         <div class="left-side">
-            <img src="" alt="Ensaimada-Bread">
+            <img src="./src/img/picture1.jpg" alt="Ensaimada-Bread">
         </div>
         <div class="right-side">
             <h1>Bake & Co.</h1>
             <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim.
-Fusce est. Vivamus a tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede.</p>
+            Fusce est. Vivamus a tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede.</p>
+            <button><a href="#">Order Now</a></button>
         </div>
-        <button><a href="#">Order Now</a></button>
     </section>
 
     <section class="products">
-        <div class="card-1">
-            <h2>Ensaimada</h2>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.</p>
-            <button><a href="#">Order Now</a></button>
-        </div>
-        <div class="card-2">
-            <h2>Ensaimada</h2>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.</p>
-            <button><a href="#">Order Now</a></button>
-        </div>
-        <div class="card-3">
-            <h2>Ensaimada</h2>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.</p>
-            <button><a href="#">Order Now</a></button>
-        </div>
+        <div class="tab"><h1>PRODUCTS</h1></div>
+        <div class="products-inner">        <!-- ADD THIS WRAPPER -->
+            <div class="card-1">
+                <h2>Ensaimada</h2>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.</p>
+                <button><a href="#">Order Now</a></button>
+            </div>
+            <div class="card-2">
+                <h2>Ensaimada</h2>
+                <p>Lorem ipsum dolor sit amet, conectetuer adipiscing elit. Maecenas porttitor congue massa.</p>
+                <button><a href="#">Order Now</a></button>
+            </div>
+            <div class="card-3">
+                <h2>Ensaimada</h2>
+                <p>Lorem ipsum dolor sit amet, conectetuer adipiscing elit. Maecenas porttitor congue massa.</p>
+                <button><a href="#">Order Now</a></button>
+            </div>
+        </div>                              <!-- CLOSE IT HERE -->
     </section>
 
     <section class="reviews">
         <h1>Reviews</h1>
-        <div class="box-1">
-            <p>“Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.
-Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim.
-Fusce est. Vivamus a tellus.”</p>
-            <p>-John</p>
-        </div>
-        <div class="box-2">
-            <p>“Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.
-Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim.
-Fusce est. Vivamus a tellus.”</p>
-            <p>-Paul</p>
+        <div class="reviews-inner">
+            <div class="box-1">
+                <p>"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.
+                Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim.
+                Fusce est. Vivamus a tellus."</p>
+                <p>-John</p>
+            </div>
+            <div class="box-2">
+                <p>"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa.
+                Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim.
+                Fusce est. Vivamus a tellus."</p>
+                <p>-Paul</p>
+            </div>
         </div>
         <button><a href="#">See More</a></button>
     </section>
 
     <section class="contact">
-        <div class="right-side">
-            <address>
-                <h2>Contact</h2>
-                <p>Phone: <a href="tel:+15555555555">+63 1234567890</a></p>
-                <p>Email: <a href="mailto:contact@company.com">contact@company.com</a></p>
-            </address>
-            <h2>Follow Socials</h2>
-            <img src="" alt="facebook"><a href="#">facebook</a>
+        <div class="contact-info">
+            <h2>Contact</h2>
+            <p>📞 +63912345678990</p>
+            <p>✉️ sampleemail@gmail.com</p>
+            <h3>Follow Socials</h3>
+            <a href="#" class="fb-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                </svg>
+            </a>
         </div>
-        <div class="left-side">
-            <form>
-                <label for="name">First name:</label><br>
-                <input type="text" id="name" name="name"><br>
-                <label for="name">Last name:</label><br>
-                <input type="email" id="email" name="email"><br>
-                <label for="lname">Last name:</label><br>
-                <input type="text" id="message" name="message"><br>
-                <button>Submit</button>
+
+        <div class="contact-form-wrapper">
+            <form class="contact-form">
+                <input type="text"  name="name"    placeholder="Name"/>
+                <input type="email" name="email"   placeholder="Email"/>
+                <textarea           name="message" placeholder="Order" rows="4"></textarea>
+                <button type="submit">Submit</button>
             </form>
         </div>
     </section>
