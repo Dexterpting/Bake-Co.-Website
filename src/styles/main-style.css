@@ -113,7 +113,9 @@ button:hover {
   box-shadow: 0 5px 16px rgba(184,94,37,.40);
 }
 
-button:active { transform: translateY(0); }
+button:active { 
+  transform: translateY(0); 
+}
 
 /* ============================================================
    HERO SECTION
@@ -121,17 +123,16 @@ button:active { transform: translateY(0); }
 .Hero {
   background: var(--hero-bg);
   display: flex;
+  flex-direction: row;           /* image left, content right */
   align-items: center;
   justify-content: center;
   gap: 48px;
-  padding: 52px 48px 24px;
-  flex-wrap: wrap;
-  position: relative;
+  padding: 40px 56px;
 }
 
 .Hero .left-side {
   flex-shrink: 0;
-  width: 270px;
+  width: 300px;
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -145,12 +146,12 @@ button:active { transform: translateY(0); }
 }
 
 .Hero .right-side {
-  max-width: 340px;
+  max-width: 360px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center;           /* centers h1, p, and button */
   text-align: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 .Hero .right-side h1 {
@@ -167,32 +168,35 @@ button:active { transform: translateY(0); }
   color: var(--text-dark);
 }
 
-/* Button is a direct child of .Hero, centered below the two divs */
-.Hero > button {
-  flex-basis: 100%;          /* force onto its own row */
-  display: flex;
-  justify-content: center;
-  background: transparent;
-  box-shadow: none;
-  padding: 0 0 8px;
-  pointer-events: none;      /* wrapper row itself not clickable */
-}
-
-/* But we want the real button clickable — override for direct button */
-.Hero > button {
-  flex-basis: auto;
-  display: inline-block;
-  pointer-events: auto;
+.Hero .right-side button {
   background: var(--accent);
+  color: var(--white);
+  padding: 12px 40px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
   box-shadow: 0 3px 10px rgba(212,121,58,.30);
-  padding: 10px 28px;
-  /* push it below the two side divs by making it full-width flex row */
-  order: 3;
-  margin-top: 0;
-  align-self: center;
+  transition: background var(--transition), transform var(--transition);
+  margin-top: 6px;
 }
 
-/* Dots row (add .dots div in HTML below .Hero) */
+.Hero .right-side button a {
+  color: var(--white);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: .95rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.Hero .right-side button:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.Hero .right-side button:active { transform: translateY(0); }
+
+/* DOTS */
 .dots {
   display: flex;
   justify-content: center;
@@ -202,13 +206,15 @@ button:active { transform: translateY(0); }
 }
 
 .dot {
-  width: 11px; height: 11px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
-  border: none; cursor: pointer;
+  border: none;
+  cursor: pointer;
   background: rgba(255,255,255,.55);
-  transition: background var(--transition), transform var(--transition);
   padding: 0;
   box-shadow: none;
+  transition: background var(--transition), transform var(--transition);
 }
 
 .dot.active {
@@ -216,9 +222,25 @@ button:active { transform: translateY(0); }
   transform: scale(1.18);
 }
 
-.dot:hover { background: var(--accent-hover); transform: translateY(0) scale(1.1); }
+.dot:hover { background: var(--accent-hover); }
 
-/* ============================================================
+/* RESPONSIVE — stack on mobile */
+@media (max-width: 680px) {
+  .Hero {
+    flex-direction: column;
+    padding: 36px 24px;
+    gap: 24px;
+  }
+
+  .Hero .left-side {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .Hero .right-side {
+    max-width: 100%;
+  }
+}/* ============================================================
    PRODUCTS SECTION
    ============================================================ */
 .products {
@@ -230,8 +252,11 @@ button:active { transform: translateY(0); }
   gap: 24px;
 }
 
-.products-inner {
+.tab h1{
   margin-top: 2rem;
+}
+
+.products-inner {
   display: flex;
   flex-direction: row;       /* ← horizontal layout */
   gap: 18px;
@@ -265,9 +290,7 @@ button:active { transform: translateY(0); }
   color: var(--text-dark);
 }
 
-.card-1 p,
-.card-2 p,
-.card-3 p {
+.card-1 p, .card-2 p, .card-3 p {
   font-size: .82rem;
   line-height: 1.65;
   color: var(--text-muted);
@@ -347,126 +370,144 @@ button:active { transform: translateY(0); }
 /* ============================================================
    CONTACT SECTION
    ============================================================ */
+/* update this variable in your :root if not already set */
+/* --contact-bg: #3b2a1a; */
+
+/* CONTACT SECTION */
 .contact {
-  background: var(--contact-bg);
-  display: flex;
-  gap: 52px;
-  flex-wrap: wrap;
-  padding: 52px 48px;
-  align-items: flex-start;
-  justify-content: center;
+    width: 100%;
+    min-width: 320px;
+    max-width: 1400px;
+
+    margin: auto;
+    padding: 40px;
+
+    background: #3b1f1b;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+
+    flex-wrap: wrap;
 }
 
-/* NOTE: in your HTML the info div is .right-side and form div is .left-side
-   We style by their parent context so there's no conflict with .Hero's sides */
-.contact .right-side {
-  color: var(--white);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-width: 190px;
-  max-width: 240px;
+/* LEFT SIDE */
+.contact-info {
+    flex: 1;
+    min-width: 250px;
+    color: white;
 }
 
-.contact .right-side h2 {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 2px;
+.contact-info h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    margin-bottom: 20px;
 }
 
-.contact .right-side address {
-  font-style: normal;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.contact-info p {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.contact .right-side address p,
-.contact .right-side > p {
-  font-size: .84rem;
-  line-height: 1.7;
-  opacity: .85;
+.contact-info h3 {
+    font-size: 2rem;
+    font-weight: 400;
+    margin-top: 25px;
+    margin-bottom: 15px;
 }
 
-.contact .right-side address a {
-  color: rgba(255,255,255,.8);
-  text-decoration: none;
-  transition: color var(--transition);
+/* FACEBOOK ICON */
+.fb-icon {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+    background: #d9d9d9;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-decoration: none;
+
+    transition: 0.3s;
 }
 
-.contact .right-side address a:hover { color: var(--accent); }
-
-/* Social icon */
-.contact .right-side img {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  object-fit: cover;
-  vertical-align: middle;
-  margin-right: 8px;
+.fb-icon:hover {
+    transform: scale(1.08);
 }
 
-.contact .right-side a {
-  color: rgba(255,255,255,.75);
-  font-size: .84rem;
-  text-decoration: none;
-  transition: color var(--transition);
+.fb-icon svg {
+    fill: #222;
 }
 
-.contact .right-side a:hover { color: var(--accent); }
+/* RIGHT SIDE */
+.contact-form-wrapper {
+    flex: 1;
+    min-width: 280px;
+    max-width: 550px;
 
-/* Form side */
-.contact .left-side {
-  min-width: 200px;
-  max-width: 260px;
-  flex: 1;
+    background: #d9d9d9;
+    padding: 25px;
 }
 
-.contact .left-side form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* FORM */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.contact .left-side form label {
-  display: none; /* labels hidden per design; inputs use placeholders */
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: #b89f9f;
+    color: white;
+
+    padding: 12px 18px;
+    border-radius: 12px;
+
+    font-size: 1rem;
 }
 
-.contact .left-side form input,
-.contact .left-side form textarea {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: var(--radius);
-  background: rgba(255,255,255,.12);
-  color: var(--white);
-  font-family: var(--font-body);
-  font-size: .85rem;
-  outline: none;
-  resize: none;
-  transition: border var(--transition), background var(--transition);
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: white;
 }
 
-.contact .left-side form input::placeholder,
-.contact .left-side form textarea::placeholder {
-  color: rgba(255,255,255,.5);
+.contact-form textarea {
+    resize: none;
+    height: 110px;
 }
 
-.contact .left-side form input:focus,
-.contact .left-side form textarea:focus {
-  border-color: var(--accent);
-  background: rgba(255,255,255,.18);
+/* BUTTON */
+.contact-form button {
+    width: 140px;
+
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+
+    background: #d68634;
+    color: white;
+
+    font-size: 1.2rem;
+    cursor: pointer;
+
+    transition: 0.3s;
 }
 
-/* Treat the three inputs as Name / Email / Order message */
-.contact .left-side form input[name="name"]    { }
-.contact .left-side form input[name="email"]   { }
-.contact .left-side form input[name="message"] { }
-
-.contact .left-side form button {
-  align-self: flex-start;
-  padding: 10px 26px;
-  font-size: .85rem;
+.contact-form button:hover {
+    opacity: 0.9;
 }
 
 /* ============================================================
