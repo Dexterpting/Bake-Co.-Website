@@ -178,8 +178,70 @@ button:active { transform: translateY(0); }
   margin-top: 6px;
 }
 
-/* ============================================================
-   PRODUCTS
+.Hero .right-side button a {
+  color: var(--white);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: .95rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.Hero .right-side button:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.Hero .right-side button:active { 
+  transform: translateY(0); 
+}
+
+/* DOTS */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  padding: 18px 0 22px;
+  background: var(--hero-bg);
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: rgba(255,255,255,.55);
+  padding: 0;
+  box-shadow: none;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.dot.active {
+  background: var(--accent);
+  transform: scale(1.18);
+}
+
+.dot:hover { background: var(--accent-hover); }
+
+/* RESPONSIVE — stack on mobile */
+@media (max-width: 680px) {
+  .Hero {
+    flex-direction: column;
+    padding: 36px 24px;
+    gap: 24px;
+  }
+
+  .Hero .left-side {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .Hero .right-side {
+    max-width: 100%;
+  }
+}/* ============================================================
+   PRODUCTS SECTION
    ============================================================ */
 .products {
   background: var(--products-bg);
