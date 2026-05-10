@@ -3,24 +3,23 @@
 
 /* ===== CSS VARIABLES ===== */
 :root {
-  --nav-bg:       #faf8f4;
-  --hero-bg:      #8fac6e;
-  --products-bg:  #c9956a;
-  --reviews-bg:   #f0e6d8;
-  --contact-bg:   #3b3228;
-  --accent:       #d4793a;
-  --accent-hover: #b85e25;
-  --white:        #ffffff;
-  --card-bg:      #e8c9a0;
-  --text-dark:    #2c2c2c;
-  --text-muted:   #5a4a3a;
-  --font-heading: 'Playfair Display', Georgia, serif;
-  --font-body:    'Lato', sans-serif;
-  --radius:       6px;
-  --shadow-sm:    0 2px 8px rgba(0,0,0,.10);
-  --shadow-md:    0 6px 22px rgba(0,0,0,.16);
-  --transition:   .22s ease;
-  --max-w:        1100px;        /* single source of truth for centering */
+  --nav-bg:        #faf8f4;
+  --hero-bg:       #8fac6e;
+  --products-bg:   #c9956a;
+  --reviews-bg:    #f0e6d8;
+  --contact-bg:    #3b3228;
+  --accent:        #d4793a;
+  --accent-hover:  #b85e25;
+  --white:         #ffffff;
+  --card-bg:       #e8c9a0;
+  --text-dark:     #2c2c2c;
+  --text-muted:    #5a4a3a;
+  --font-heading:  'Playfair Display', Georgia, serif;
+  --font-body:     'Lato', sans-serif;
+  --radius:        6px;
+  --shadow-sm:     0 2px 8px rgba(0,0,0,.10);
+  --shadow-md:     0 6px 22px rgba(0,0,0,.16);
+  --transition:    .22s ease;
 }
 
 /* ===== RESET ===== */
@@ -114,22 +113,17 @@ button:hover {
   box-shadow: 0 5px 16px rgba(184,94,37,.40);
 }
 
-button:active { transform: translateY(0); }
+button:active { 
+  transform: translateY(0); 
+}
 
 /* ============================================================
-   HERO
+   HERO SECTION
    ============================================================ */
 .Hero {
   background: var(--hero-bg);
-  padding: 48px 24px;
-}
-
-/* inner wrapper — centers content with max-width */
-.hero-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: row;           
   align-items: center;
   justify-content: space-around;
   gap: 48px;
@@ -138,7 +132,7 @@ button:active { transform: translateY(0); }
 
 .Hero .left-side {
   flex-shrink: 0;
-  width: 320px;
+  width: 300px;
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -152,10 +146,10 @@ button:active { transform: translateY(0); }
 }
 
 .Hero .right-side {
-  max-width: 420px;
+  max-width: 360px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center;          
   text-align: center;
   gap: 16px;
 }
@@ -175,7 +169,14 @@ button:active { transform: translateY(0); }
 }
 
 .Hero .right-side button {
+  background: var(--accent);
+  color: var(--white);
   padding: 12px 40px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(212,121,58,.30);
+  transition: background var(--transition), transform var(--transition);
   margin-top: 6px;
 }
 
@@ -193,326 +194,283 @@ button:active { transform: translateY(0); }
   transform: translateY(-2px);
 }
 
-.Hero .right-side button:active { transform: translateY(0); }
-
-/* DOTS */
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: 9px;
-  padding: 18px 0 22px;
-  background: var(--hero-bg);
+.Hero .right-side button:active { 
+  transform: translateY(0); 
 }
-
-.dot {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  background: rgba(255,255,255,.55);
-  padding: 0;
-  box-shadow: none;
-  transition: background var(--transition), transform var(--transition);
-}
-
-.dot.active {
-  background: var(--accent);
-  transform: scale(1.18);
-}
-
-.dot:hover { background: var(--accent-hover); }
 
 /* ============================================================
    PRODUCTS SECTION
    ============================================================ */
 .products {
   background: var(--products-bg);
-  padding: 48px 24px;
-}
-
-/* inner wrapper — centers with max-width */
-.products-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
+  padding: 0 32px 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
-}
-
-.products-inner h1 {
-  font-family: var(--font-heading);
-  font-size: 1.8rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  color: var(--text-dark);
-}
-
-/* cards row */
-.cards {
-  display: flex;
-  flex-direction: row;
   gap: 24px;
-  justify-content: center;
-  flex-wrap: wrap;
+}
+
+.tab h1{
+  margin-top: 2rem;
+}
+
+.products-inner {
+  display: flex;
+  flex-direction: row;      
+  justify-content: space-around;
+  flex-wrap: wrap;          
   width: 100%;
 }
 
-.card-1,
-.card-2,
-.card-3 {
+/* Cards share same style */
+.card{
   background: var(--card-bg);
   border-radius: var(--radius);
-  flex: 1;
-  min-width: 200px;
-  max-width: 300px;
-  min-height: 220px;
-  padding: 20px 18px;
+  width: 230px;
+  min-height: 200px;
+  padding: 18px 16px 16px;
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 9px;
+  flex: 1;                  
+  max-width: 260px;
 }
 
-.card-1 h2, .card-2 h2, .card-3 h2 {
+.card h2{
   font-family: var(--font-heading);
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-dark);
 }
 
-.card-1 p, .card-2 p, .card-3 p {
+.card p{
   font-size: .82rem;
   line-height: 1.65;
   color: var(--text-muted);
   flex: 1;
 }
 
-.card-1 button, .card-2 button, .card-3 button {
+.card button {
   align-self: flex-start;
   font-size: .82rem;
   padding: 9px 22px;
 }
 
 /* ============================================================
-   REVIEWS
+   REVIEWS SECTION
    ============================================================ */
 .reviews {
   background: var(--reviews-bg);
-  padding: 60px 80px;
+  padding: 52px 24px;   
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  align-items: center;
+  gap: 28px;
 }
 
 .reviews h1 {
-  align-self: center;
   font-family: var(--font-heading);
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--text-dark);
 }
 
 .reviews-inner {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: row;
   gap: 24px;
-  align-items: stretch;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1000px;      
 }
 
 .box {
   background: var(--white);
-  width: 100%;
-  padding: 24px;
   border-radius: var(--radius);
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;        
+  padding: 24px;
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  transition: transform 0.3s ease;
+  gap: 16px;
 }
 
-/* REVIEW TEXT */
-.box p:first-child {
-  font-size: 0.95rem;
-  line-height: 1.8;
+.box p {
+  font-size: .85rem;
+  line-height: 1.78;
   color: var(--text-muted);
 }
 
-/* AUTHOR */
 .box p:last-child {
-  margin-top: auto;
-  font-size: 0.9rem;
   font-weight: 700;
+  font-size: .82rem;
   color: var(--text-dark);
-}
-
-/* BUTTON */
-.reviews button {
-  align-self: center;
-  background: var(--accent);
-  border: none;
-  border-radius: var(--radius);
-  padding: 12px 34px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.reviews button:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-}
-
-/* BUTTON LINK */
-.reviews button a {
-  text-decoration: none;
-  color: var(--white);
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
+  margin-top: auto;
 }
 
 /* ============================================================
-   CONTACT
+   CONTACT SECTION
    ============================================================ */
 .contact {
-  background: var(--contact-bg);
-  padding: 48px 24px;
+    width: 100%;
+    min-width: 320px;
+    max-width: 1400px;
+
+    margin: auto;
+    padding: 40px;
+
+    background: #3b1f1b;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+
+    flex-wrap: wrap;
 }
 
-/* inner wrapper */
-.contact-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 52px;
-  flex-wrap: wrap;
-}
-
+/* LEFT SIDE */
 .contact-info {
-  color: var(--white);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 180px;
+    flex: 1;
+    min-width: 250px;
+    color: white;
 }
 
 .contact-info h2 {
-  font-family: var(--font-heading);
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 4px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    margin-bottom: 20px;
 }
 
 .contact-info p {
-  font-size: .88rem;
-  line-height: 1.7;
-  opacity: .9;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .contact-info h3 {
-  font-family: var(--font-body);
-  font-size: .95rem;
-  font-weight: 400;
-  margin-top: 8px;
+    font-size: 2rem;
+    font-weight: 400;
+    margin-top: 25px;
+    margin-bottom: 15px;
 }
 
+/* FACEBOOK ICON */
 .fb-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #1877f2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: background var(--transition), transform var(--transition);
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+    background: #d9d9d9;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-decoration: none;
+
+    transition: 0.3s;
 }
 
-.fb-icon:hover { background: #145dbf; transform: scale(1.1); }
+.fb-icon:hover {
+    transform: scale(1.08);
+}
 
+.fb-icon svg {
+    fill: #222;
+}
+
+/* RIGHT SIDE */
 .contact-form-wrapper {
-  background: #d6cfc7;
-  border-radius: 12px;
-  padding: 24px;
-  min-width: 260px;
-  max-width: 340px;
-  flex: 1;
+    flex: 1;
+    min-width: 280px;
+    max-width: 550px;
+
+    background: #d9d9d9;
+    padding: 25px;
 }
 
+/* FORM */
 .contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .contact-form input,
 .contact-form textarea {
-  width: 100%;
-  padding: 11px 16px;
-  border: none;
-  border-radius: 20px;
-  background: #b8a89a;
-  color: var(--text-dark);
-  font-family: var(--font-body);
-  font-size: .88rem;
-  outline: none;
-  resize: none;
-  transition: background var(--transition), box-shadow var(--transition);
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: #b89f9f;
+    color: white;
+
+    padding: 12px 18px;
+    border-radius: 12px;
+
+    font-size: 1rem;
 }
 
 .contact-form input::placeholder,
 .contact-form textarea::placeholder {
-  color: #5a4a3a;
-  opacity: .85;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-  background: #c9b8ab;
-  box-shadow: 0 0 0 2px var(--accent);
+    color: white;
 }
 
 .contact-form textarea {
-  border-radius: 14px;
-  min-height: 90px;
+    resize: none;
+    height: 110px;
 }
 
+/* BUTTON */
 .contact-form button {
-  align-self: center;
-  padding: 11px 36px;
-  font-size: .88rem;
-  box-shadow: 0 3px 10px rgba(212,121,58,.30);
+    width: 140px;
+
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+
+    background: #d68634;
+    color: white;
+
+    font-size: 1.2rem;
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.contact-form button:hover {
+    opacity: 0.9;
 }
 
 /* ============================================================
    RESPONSIVE
-   =========================================================== */
-
+   ============================================================ */
 @media (max-width: 720px) {
   nav { padding: 0 18px; }
   nav ul { gap: 14px; }
 
-  .hero-inner { flex-direction: column; gap: 24px; }
-  .Hero .left-side { width: 100%; max-width: 320px; }
+  .Hero { flex-direction: column; padding: 36px 20px 18px; gap: 24px; }
+  .Hero .left-side { width: 100%; max-width: 300px; }
   .Hero .right-side { max-width: 100%; }
 
-  .cards { flex-direction: column; align-items: center; }
-  .card-1, .card-2, .card-3 { max-width: 100%; }
+  .products { padding: 0 16px 36px; }
+  .card-1, .card-2, .card-3 { width: 100%; max-width: 320px; }
+
   .reviews { padding: 36px 18px; }
   .box { max-width: 100%; }
-  .contact-inner { flex-direction: column; }
-  .contact-form-wrapper { max-width: 100%; }
+
+  .contact { flex-direction: column; padding: 36px 20px; gap: 32px; }
+  .contact .right-side,
+  .contact .left-side { max-width: 100%; }
 }
