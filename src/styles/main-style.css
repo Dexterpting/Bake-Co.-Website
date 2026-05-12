@@ -23,7 +23,11 @@
 }
 
 /* ===== RESET ===== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
 
 body {
   font-family: var(--font-body);
@@ -82,6 +86,44 @@ nav ul li a::after {
 
 nav ul li a:hover { color: var(--accent); }
 nav ul li a:hover::after { width: 100%; }
+
+.nav-hamburger {
+  display: none;
+  background: none;
+  border: 1.5px solid var(--text-muted, #aaa);
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--text-dark);
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.nav-hamburger:hover { background: rgba(0,0,0,0.06); }
+
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.18);
+  z-index: 998;
+}
+.nav-overlay.open { display: block; }
+
+.nav-close-item {
+  display: none;
+}
+
+#navClose {
+  display: none;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);   opacity: 1; }
+}
 
 /* ============================================================
    SHARED BUTTON
@@ -216,25 +258,25 @@ button:active {
 
 .products-inner {
   display: flex;
-  flex-direction: row;      
-  justify-content: space-around;
-  flex-wrap: wrap;          
+  flex-direction: row;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
   width: 100%;
+  max-width: 1000px;
 }
 
-/* Cards share same style */
-.card{
+.card {
   background: var(--card-bg);
   border-radius: var(--radius);
-  width: 230px;
   min-height: 200px;
   padding: 18px 16px 16px;
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: 9px;
-  flex: 1;                  
-  max-width: 260px;
+  gap: 10px;
+  flex: 1 1 250px;     /* ← grow, shrink, basis 250px */
+  max-width: 320px;
 }
 
 .card h2{
@@ -319,19 +361,13 @@ button:active {
    ============================================================ */
 .contact {
     width: 100%;
-    min-width: 320px;
-    max-width: 1400px;
-
     margin: auto;
-    padding: 40px;
-
+    padding: 5rem;
     background: #3b1f1b;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 50px;
-
     flex-wrap: wrap;
 }
 
@@ -340,6 +376,7 @@ button:active {
     flex: 1;
     min-width: 250px;
     color: white;
+    padding-left: 90px;
 }
 
 .contact-info h2 {
@@ -351,7 +388,6 @@ button:active {
 .contact-info p {
     font-size: 1.2rem;
     margin-bottom: 12px;
-
     display: flex;
     align-items: center;
     gap: 10px;
@@ -368,16 +404,12 @@ button:active {
 .fb-icon {
     width: 50px;
     height: 50px;
-
     border-radius: 50%;
     background: #d9d9d9;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     text-decoration: none;
-
     transition: 0.3s;
 }
 
@@ -394,7 +426,6 @@ button:active {
     flex: 1;
     min-width: 280px;
     max-width: 550px;
-
     background: #d9d9d9;
     padding: 25px;
 }
@@ -409,21 +440,16 @@ button:active {
 .contact-form input,
 .contact-form textarea {
     width: 100%;
-
     border: none;
     outline: none;
-
     background: #b89f9f;
     color: white;
-
     padding: 12px 18px;
     border-radius: 12px;
-
     font-size: 1rem;
 }
 
-.contact-form input::placeholder,
-.contact-form textarea::placeholder {
+.contact-form input::placeholder, .contact-form textarea::placeholder {
     color: white;
 }
 
@@ -435,17 +461,13 @@ button:active {
 /* BUTTON */
 .contact-form button {
     width: 140px;
-
     padding: 10px;
     border: none;
     border-radius: 6px;
-
     background: #d68634;
     color: white;
-
     font-size: 1.2rem;
     cursor: pointer;
-
     transition: 0.3s;
 }
 
@@ -458,18 +480,89 @@ button:active {
    ============================================================ */
 @media (max-width: 720px) {
   nav { padding: 0 18px; }
-  nav ul { gap: 14px; }
 
+  .nav-hamburger { display: flex; }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    position: fixed;
+    top: 0; right: 0;
+    height: 100dvh;
+    width: 200px;
+    background: var(--nav-bg, #fdf6ec);
+    z-index: 999;
+    padding: 16px 24px 24px;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.10);
+    animation: slideIn 0.22s ease;
+  }
+
+  nav ul.open { display: flex; }
+
+  nav ul li a {
+    display: block;
+    padding: 14px 0;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    color: var(--text-dark);
+  }
+
+  nav ul li:last-child a { border-bottom: none; }
+
+  .nav-close-item {
+    display: flex !important;
+    justify-content: flex-end;
+    padding: 4px 0 12px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    margin-bottom: 4px;
+  }
+
+  #navClose {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1.5px solid #aaa;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+    cursor: pointer;
+    line-height: 1;
+    color: var(--text-dark, #333);
+  }
+
+  /* HERO */
   .Hero { flex-direction: column; padding: 36px 20px 18px; gap: 24px; }
   .Hero .left-side { width: 100%; max-width: 300px; }
   .Hero .right-side { max-width: 100%; }
 
-  .products { padding: 0 16px 36px; }
-  .card-1, .card-2, .card-3 { width: 100%; max-width: 320px; }
+  /* PRODUCTS — stack cards vertically with spacing */
+  .products { padding: 24px 16px 36px; }   /* ← top padding added */
 
+  .products-inner {
+    flex-direction: column;                /* ← stack vertically */
+    align-items: center;                   /* ← center each card */
+    gap: 10px;                             /* ← space between cards */
+  }
+
+  .card {
+    width: 100%;
+    max-width: 400px;                      /* ← consistent card width */
+    min-width: unset;                      /* ← remove min-width so it shrinks */
+  }
+
+  .card button {
+    width: 100%;                           /* ← full width button on mobile */
+    text-align: center;
+  }
+
+  /* REVIEWS */
   .reviews { padding: 36px 18px; }
   .box { max-width: 100%; }
 
+  /* CONTACT */
   .contact { flex-direction: column; padding: 36px 20px; gap: 32px; }
   .contact .right-side,
   .contact .left-side { max-width: 100%; }
