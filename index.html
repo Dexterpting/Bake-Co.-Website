@@ -9,13 +9,15 @@
 <body>
     <nav>
         <h1><a href="">Bake & Co.</a></h1>
-        <ul>
+        <ul id="navMenu">
             <li><a href="#">Home</a></li>
             <li><a href="#">Menu</a></li>
             <li><a href="#">Reviews</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
+        <button class="nav-hamburger" id="navToggle" aria-label="Open menu">&#9776;</button>
     </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
 
     <section class="Hero">
         <div class="left-side">
@@ -97,6 +99,8 @@
             </form>
         </div>
     </section>
+
+    <script src="./src/js/nav-script.js"></script>
 
 </body>
 </html>
