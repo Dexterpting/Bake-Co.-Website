@@ -1,4 +1,4 @@
-const toggle  = document.getElementById('navToggle');
+  const toggle  = document.getElementById('navToggle');
   const menu    = document.getElementById('navMenu');
   const overlay = document.getElementById('navOverlay');
 
