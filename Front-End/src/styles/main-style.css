@@ -33,9 +33,9 @@
 }
 
 body {
-  font-family: var(--font-body);
-  color: var(--text-dark);
   background: var(--white);
+  color: var(--text-dark);
+  font-family: var(--font-body);
 }
 
 /* ============================================================
@@ -178,7 +178,7 @@ button:active { transform: translateY(0); }
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("/src/img/background.png");
+  background-image: url("../img/background.png");
   background-size: cover;
   background-position: center;
   filter: blur(5px);
