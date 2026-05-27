@@ -311,6 +311,45 @@ button:active { transform: translateY(0); }
   padding: 9px 22px;
 }
 
+/* Category filter buttons */
+.category-filters {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+#categorySelect {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--accent, #c8953a);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 48px 10px 24px;
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background 0.2s;
+}
+
+.card.hidden {
+  display: none;
+}
+
+#categorySelect:hover {
+  background-color: var(--accent-dark, #b07d2e);
+}
+
+#categorySelect option {
+  background: #fff;
+  color: var(--text-dark, #333);
+}
+
 /* ============================================================
    REVIEWS SECTION
    ============================================================ */

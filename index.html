@@ -30,29 +30,141 @@
         </div>
     </section>
 
-    <section id="products-section" class="products">
-        <div class="tab"><h1>PRODUCTS</h1></div>
-        <div class="products-inner">        <!-- ADD THIS WRAPPER -->
-            <div class="card">
-                <h2>Classic Cheese Ensaymada</h2>
-                <img src="/src/img/product1.png" alt="Classic-Cheese-Flavor">
-                <p>Soft and fluffy ensaymada topped with rich grated cheese - our timeless bestseller.</p>
-                <button><a href="#contact-section">Order Now</a></button>
-            </div>
-            <div class="card">
-                <h2>Alcapone Ensaymada</h2>
-                <img src="/src/img/product2.png" alt="Alcapone-Flavor">
-                <p>A premium favorite topped with generous cheese and creamy sweetness in every bite.</p>
-                <button><a href="#contact-section">Order Now</a></button>
-            </div>
-            <div class="card">
-                <h2>Blueberry Ensaymada</h2>
-                <img src="/src/img/product3.png" alt="Blueberry-Flavor">
-                <p>A sweet creamy twist with blueberry flavor for something extra special.</p>
-                <button><a href="#contact-section">Order Now</a></button>
-            </div>
-        </div>                           
-    </section>
+<section id="products-section" class="products">
+<div class="tab"><h1>PRODUCTS</h1></div>
+
+  <!-- Category Filter Buttons -->
+<div class="category-filters">
+  <select id="categorySelect">
+    <option value="all">All</option>
+    <option value="pastries">Sweet Breads / Pastries</option>
+    <option value="cheese">Cheese Cakes</option>
+    <option value="moist">Moist Cakes</option>
+    <option value="custom-made">Custom Made Order</option>
+    <!--- for future category
+    <option value="breads">Breads</option>
+    --->
+  </select>
+</div>
+
+  <div class="products-inner">
+
+    <!-- ENSAYMADA -->
+    <div class="card" data-category="pastries">
+      <h2>Classic Cheese Ensaymada</h2>
+      <img src="/src/img/product1.png" alt="Classic Cheese">
+      <p>Soft and fluffy ensaymada topped with rich grated cheese - our timeless bestseller.</p>
+      <button><a href="#contact-section">Order Now</a></button>
+    </div>
+    <div class="card" data-category="pastries">
+      <h2>Alcapone Ensaymada</h2>
+      <img src="/src/img/product2.png" alt="Alcapone">
+      <p>A premium favorite topped with generous cheese and creamy sweetness in every bite.</p>
+      <button><a href="#contact-section">Order Now</a></button>
+    </div>
+    <div class="card" data-category="pastries">
+      <h2>Blueberry Ensaymada</h2>
+      <img src="/src/img/product3.png" alt="Blueberry">
+      <p>A sweet creamy twist with blueberry flavor for something extra special.</p>
+      <button><a href="#contact-section">Order Now</a></button>
+    </div>
+
+    <!-- CHEESE CAKES -->
+<div class="card" data-category="cheese">
+  <h2>Classic Cheesecake</h2>
+  <img src="/src/img/product4.png" alt="Classic Cheesecake">
+  <p>Rich and creamy baked cheesecake with a smooth texture and buttery graham crust.</p>
+  <button><a href="#contact-section">Order Now</a></button>
+</div>
+
+<div class="card" data-category="cheese">
+  <h2>Mango Cream Cheesecake</h2>
+  <img src="/src/img/product5.png" alt="Mango Cream Cheesecake">
+  <p>Silky cheesecake topped with sweet mango cream and juicy mango flavors in every bite.</p>
+  <button><a href="#contact-section">Order Now</a></button>
+</div>
+
+<div class="card" data-category="cheese">
+  <h2>Blueberry Cheesecake</h2>
+  <img src="/src/img/product9.png" alt="Blueberry Cheesecake">
+  <p>Rich and creamy cheesecake topped with sweet blueberry sauce and bursting blueberry flavors.</p>
+  <button><a href="#contact-section">Order Now</a></button>
+</div>
+
+<div class="card" data-category="cheese">
+  <h2>Biscoff Cheesecake</h2>
+  <img src="/src/img/product10.png" alt="Biscoff Cheesecake">
+  <p>Velvety cheesecake blended with crunchy Biscoff crumbs and a rich caramel biscuit flavor.</p>
+  <button><a href="#contact-section">Order Now</a></button>
+</div>
+
+<!-- MOIST CAKES -->
+<div class="card" data-category="moist">
+  <h2>Ube Moist Cake</h2>
+  <img src="/src/img/product6.png" alt="Ube Moist">
+  <p>Soft and moist ube cake layered with creamy frosting and rich purple yam flavor.</p>
+  <button><a href="#contact-section">Order Now</a></button>
+</div>
+
+<div class="card" data-category="moist">
+  <h2>Bittersweet Chocolate Cake</h2>
+  <img src="/src/img/product7.png" alt="Bittersweet Chocolate">
+  <p>Decadent chocolate cake with a rich bittersweet flavor and smooth chocolate frosting.</p>
+  <button><a href="#contact-section">Order Now</a></button>
+</div>
+
+<div class="card" data-category="moist">
+  <h2>Choco Moist Cake</h2>
+  <img src="/src/img/product8.png" alt="Choco Moist">
+  <p>Ultra-moist chocolate cake packed with deep cocoa flavor and luscious chocolate icing.</p>
+  <button><a href="#contact-section">Order Now</a></button>
+</div>
+    
+
+    <!-- CUSTOM MADE ORDER -->
+    <div class="card" data-category="custom-made">
+        <h2>Custom Made Order</h2>
+        <img src="/src/img/product11.png" alt="Choco Chip">
+        <p>Freshly baked treats customized to your style, flavor, and special occasion preferences.</p>
+        <button><a href="#contact-section">Order Now</a></button>
+    </div>
+    
+
+    <!-- BREADS
+    <div class="card" data-category="breads">
+      <h2>Spanish Bread</h2>
+      <img src="/src/img/bread1.png" alt="Spanish Bread">
+      <p>Rolled soft bread filled with a sweet buttery breadcrumb filling inside.</p>
+      <button><a href="#contact-section">Order Now</a></button>
+    </div>
+    <div class="card" data-category="breads">
+      <h2>Tasty Loaf</h2>
+      <img src="/src/img/bread2.png" alt="Tasty Loaf">
+      <p>Soft white sandwich loaf, perfect for toasting or filling with your favorites.</p>
+      <button><a href="#contact-section">Order Now</a></button>
+    </div>
+    <div class="card" data-category="breads">
+      <h2>Monay</h2>
+      <img src="/src/img/bread3.png" alt="Monay">
+      <p>Dense, slightly sweet Filipino bread with a firm crust and soft interior.</p>
+      <button><a href="#contact-section">Order Now</a></button>
+    </div>
+    <div class="card" data-category="breads">
+      <h2>Pan de Coco</h2>
+      <img src="/src/img/bread4.png" alt="Pan de Coco">
+      <p>Soft rolls stuffed with sweetened shredded coconut filling — a classic treat.</p>
+      <button><a href="#contact-section">Order Now</a></button>
+    </div>
+    <div class="card" data-category="breads">
+      <h2>Putok</h2>
+      <img src="/src/img/bread5.png" alt="Putok">
+      <p>Star-shaped sugar-topped bread rolls with a slightly crispy sweet crust.</p>
+      <button><a href="#contact-section">Order Now</a></button>
+    </div>
+    -->
+
+  </div>
+</section>
 
     <section id="review-section" class="reviews">
         <h1>Reviews</h1>
@@ -88,15 +200,17 @@
 
         <div class="contact-form-wrapper">
             <form class="contact-form">
-                <input type="text"  name="name"    placeholder="Name"/>
-                <input type="email" name="email"   placeholder="Email"/>
-                <textarea           name="message" placeholder="Order" rows="4"></textarea>
+                <input type="text"  name="name" placeholder="Name"/>
+                <input type="email" name="email" placeholder="Email"/>
+                <input type="number" name="number" placeholder="Phone Number"/>
+                <textarea name="message" placeholder="Order" rows="4"></textarea>
                 <button type="submit">Submit</button>
             </form>
         </div>
     </section>
 
-    <script src="./src/js/nav-script.js"></script>
+    <script src="./src/js/phone-nav-script.js"></script>
+    <script src="./src/js/multi-prod-script.js"></script>
 
 </body>
 </html>
