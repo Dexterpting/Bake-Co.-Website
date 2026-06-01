@@ -11,7 +11,7 @@ const form = document.querySelector('.contact-form');
   const formData = new FormData(form);
 
   try {
-    const response = await fetch('http://localhost/VA-Development/Lorena-Landing-Page/Landing-Page/Back-End/submit-order.php', {
+    const response = await fetch('https://bake-co.infinityfree.me/Back-End/submit-order.php', {
       method: 'POST',
       body: formData
     });

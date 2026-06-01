@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Front-End/src/styles/main-style.css">
+    <link rel="stylesheet" href="/Front-End/src/styles/main-style.css">
     <title>Bake & Co.</title>
 </head>
 <body>
@@ -201,17 +201,18 @@
         <div class="contact-form-wrapper" >
             <form class="contact-form" method="POST">
                 <input type="text"  name="name" placeholder="Name"/>
-                <input type="email" name="email" placeholder="Email"/>
-                <input type="number" name="number" placeholder="Phone Number"/>
+                <input type="tel" name="number" placeholder="Phone Number"/>
+                <input type="text" name="address" placeholder="Location for delivery"/>
+                <input type="text" name="landmark" placeholder="Landmark for the delivery location">
                 <textarea name="message" placeholder="Order" rows="4"></textarea>
                 <button type="submit">Submit</button>
             </form>
         </div>
     </section>
 
-    <script src="../Front-End/src/js/phone-nav-script.js"></script>
-    <script src="../Front-End/src/js/multi-prod-script.js"></script>
-    <script src="../Front-End/src/js/contact-script.js"></script>
+    <script src="../Front-End/src/js/landing-page/phone-nav-script.js"></script>
+    <script src="../Front-End/src/js/landing-page/multi-prod-script.js"></script>
+    <script src="../Front-End/src/js/landing-page/contact-script.js"></script>
 
 </body>
 </html>
