@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard — Bake & Co.</title>
-  <link rel="stylesheet" href="/VA-Development/Lorena-Landing-Page/Landing-Page/Front-End/src/styles/admin-style.css">
+  <link rel="stylesheet" href="/Front-End/src/styles/admin-style.css">
 </head>
 <body class="dashboard-page">
   <nav class="admin-nav">
     <h1>Bake & Co. Admin</h1>
-    <a href="/VA-Development/Lorena-Landing-Page/Landing-Page/Back-End/admin.php?logout=1" class="logout">Logout</a>
+    <a href="/Back-End/admin.php?logout=1" class="logout">Logout</a>
   </nav>
   <div class="dashboard">
 
@@ -22,7 +22,7 @@
     <div class="quick-links">
       <h2>Quick Links</h2>
       <div class="links-row">
-        <a href="/VA-Development/Lorena-Landing-Page/Landing-Page/Back-End/admin.php?page=orders" class="link-btn">View All Orders</a>
+        <a href="/Back-End/admin.php?page=orders" class="link-btn">View All Orders</a>
       </div>
     </div>
 
@@ -46,7 +46,7 @@
             <td><?= htmlspecialchars($row['landmark']) ?></td>
             <td><?= nl2br(htmlspecialchars($row['order'])) ?></td>
             <td><?= $row['submitted_at'] ?></td>
-            <td><a class="delete" href="/VA-Development/Lorena-Landing-Page/Landing-Page/Back-End/admin.php?delete=<?= $row['id'] ?>&from=dashboard" onclick="return confirm('Delete this order?')">Delete</a></td>
+            <td><a class="delete" href="/Back-End/admin.php?delete=<?= $row['id'] ?>&from=dashboard" onclick="return confirm('Delete this order?')">Delete</a></td>
           </tr>
           <?php endwhile; ?>
         </tbody>

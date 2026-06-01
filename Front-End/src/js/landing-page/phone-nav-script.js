@@ -1,8 +1,9 @@
-  const toggle  = document.getElementById('navToggle');
-  const menu    = document.getElementById('navMenu');
-  const overlay = document.getElementById('navOverlay');
+const toggle = document.getElementById('navToggle');
+const menu   = document.getElementById('navMenu');
+const overlay = document.getElementById('navOverlay');
 
-  // Inject close button only once
+// Only run if nav elements exist
+if (toggle && menu && overlay) {
   if (!document.getElementById('navClose')) {
     const closeItem = document.createElement('li');
     closeItem.classList.add('nav-close-item');
@@ -25,3 +26,4 @@
   toggle.addEventListener('click', openMenu);
   overlay.addEventListener('click', closeMenu);
   document.getElementById('navClose').addEventListener('click', closeMenu);
+}
