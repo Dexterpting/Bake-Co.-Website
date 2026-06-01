@@ -1,10 +1,10 @@
 async function loadOrders() {
-  const response = await fetch('/VA-Development/Lorena-Landing-Page/Landing-Page/Back-End/admin.php?api=1');
+  const response = await fetch('/Back-End/admin.php?api=1');
   const orders = await response.json();
   const tbody = document.getElementById('ordersBody');
 
   if (orders.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6">No orders yet.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8">No orders yet.</td></tr>';
     return;
   }
 
@@ -17,7 +17,7 @@ async function loadOrders() {
       <td>${escapeHtml(row.landmark)}</td>
       <td>${escapeHtml(row.order).replace(/\n/g, '<br>')}</td>
       <td>${row.submitted_at}</td>
-      <td><a class="delete" href="?delete=${row.id}" data-id="${row.id}">Delete</a></td>
+      <td><a class="delete" href="/Back-End/admin.php?delete=${row.id}&from=orders" data-id="${row.id}">Delete</a></td>
     </tr>
   `).join('');
 
