@@ -33,10 +33,7 @@ body {
   max-width: 360px;
 }
 
-.login-page h2 {
-  margin: 0;
-  color: #3d2a1a;
-}
+.login-page h2 { margin: 0; color: #3d2a1a; }
 
 .login-page input {
   padding: 10px 14px;
@@ -59,10 +56,7 @@ body {
 
 .login-page button:hover { background: #a9742e; }
 
-.error {
-  color: red;
-  font-size: .85rem;
-}
+.error { color: red; font-size: .85rem; }
 
 /* ===== ADMIN NAV ===== */
 .admin-nav {
@@ -76,11 +70,7 @@ body {
   z-index: 100;
 }
 
-.admin-nav h1 {
-  color: white;
-  font-size: 1.1rem;
-  margin: 0;
-}
+.admin-nav h1 { color: white; font-size: 1.1rem; margin: 0; }
 
 .admin-nav .logout {
   color: rgba(255,255,255,0.85);
@@ -101,11 +91,7 @@ body {
   margin: 0 auto;
 }
 
-.stats {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
+.stats { display: flex; gap: 16px; flex-wrap: wrap; }
 
 .stat-card {
   background: white;
@@ -117,30 +103,13 @@ body {
   text-align: center;
 }
 
-.stat-label {
-  font-size: .85rem;
-  color: #7b6553;
-  margin-bottom: 8px;
-}
-
-.stat-number {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #c9933d;
-}
+.stat-label { font-size: .85rem; color: #7b6553; margin-bottom: 8px; }
+.stat-number { font-size: 2rem; font-weight: 700; color: #c9933d; }
 
 .quick-links h2,
-.recent-orders h2 {
-  font-size: 1.1rem;
-  margin-bottom: 14px;
-  color: #3d2a1a;
-}
+.recent-orders h2 { font-size: 1.1rem; margin-bottom: 14px; color: #3d2a1a; }
 
-.links-row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
+.links-row { display: flex; gap: 12px; flex-wrap: wrap; }
 
 .link-btn {
   background: #c9933d;
@@ -161,10 +130,7 @@ body {
   margin: 0 auto;
 }
 
-.orders-wrapper h1 {
-  margin-bottom: 8px;
-  font-size: 1.4rem;
-}
+.orders-wrapper h1 { margin-bottom: 8px; font-size: 1.4rem; }
 
 /* ===== BACK BUTTON ===== */
 .back-btn {
@@ -178,11 +144,7 @@ body {
 .back-btn:hover { text-decoration: underline; }
 
 /* ===== COUNT ===== */
-.count {
-  font-size: .9rem;
-  color: #7b6553;
-  margin-bottom: 16px;
-}
+.count { font-size: .9rem; color: #7b6553; margin-bottom: 16px; }
 
 /* ===== TABLE ===== */
 .table-wrapper {
@@ -219,14 +181,8 @@ td {
 tr:last-child td { border-bottom: none; }
 tr:hover td { background: #fff9f1; }
 
-/* ===== RECENT ORDERS TABLE ===== */
-.recent-orders {
-  overflow-x: auto;
-}
-
-.recent-orders table {
-  min-width: 600px;
-}
+.recent-orders { overflow-x: auto; }
+.recent-orders table { min-width: 600px; }
 
 /* ===== DELETE LINK ===== */
 .delete {
@@ -238,7 +194,66 @@ tr:hover td { background: #fff9f1; }
 
 .delete:hover { text-decoration: underline; }
 
-/* ===== RESPONSIVE ===== */
+/* ===== ADD PRODUCT FORM ===== */
+.add-product-form {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  margin-bottom: 16px;
+}
+
+.add-product-form h2 { font-size: 1.1rem; margin-bottom: 20px; color: #3d2a1a; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full-width { grid-column: 1 / -1; }
+
+.form-group label { font-size: .82rem; font-weight: 700; color: #7b6553; }
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 10px 14px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: .88rem;
+  font-family: sans-serif;
+  color: #3d2a1a;
+  background: white;
+  transition: border 0.2s;
+  resize: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #c9933d;
+}
+
+/* ===== FILE UPLOAD ===== */
+.form-group input[type="file"] {
+  padding: 8px;
+  border: 1.5px dashed #c9933d;
+  border-radius: 8px;
+  background: #fff9f1;
+  cursor: pointer;
+  font-size: .82rem;
+  color: #7b6553;
+}
+
+.form-group input[type="file"]:hover {
+  background: #fff3e0;
+}
+
+/* ===== RESPONSIVE — TABLET ===== */
 @media (max-width: 768px) {
   .dashboard { padding: 16px; gap: 20px; }
   .orders-wrapper { padding: 16px; }
@@ -247,12 +262,22 @@ tr:hover td { background: #fff9f1; }
   .admin-nav { padding: 12px 16px; }
   .admin-nav h1 { font-size: 1rem; }
   th, td { padding: 10px 12px; font-size: .82rem; }
+  .add-product-form { padding: 16px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-group.full-width { grid-column: 1; }
+  .add-product-form button { width: 100%; text-align: center; }
 }
 
+/* ===== RESPONSIVE — MOBILE ===== */
 @media (max-width: 480px) {
   .dashboard { padding: 12px; }
   .orders-wrapper { padding: 12px; }
   .stat-card { min-width: 100%; }
   .link-btn { width: 100%; text-align: center; display: block; }
   .admin-nav h1 { font-size: .95rem; }
+  .add-product-form { padding: 12px; }
+  .add-product-form h2 { font-size: 1rem; }
+  .form-group input,
+  .form-group select,
+  .form-group textarea { font-size: .82rem; padding: 8px 12px; }
 }
