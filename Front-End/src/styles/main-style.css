@@ -520,6 +520,94 @@ button:active { transform: translateY(0); }
   font-size: .9rem;
 }
 
+/* ===== ORDER ITEMS ===== */
+#order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.order-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.order-item select {
+  flex: 2;
+  border: none;
+  outline: none;
+  background: #b89f9f;
+  color: var(--white);
+  padding: 12px 16px;
+  border-radius: 20px;
+  font-family: var(--font-body);
+  font-size: .88rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: background var(--transition), box-shadow var(--transition);
+}
+
+.order-item select:focus {
+  background: #c9aeae;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.order-item select option {
+  background: #fff;
+  color: var(--text-dark);
+}
+
+.order-item select optgroup {
+  background: #f5f0e8;
+  color: var(--text-muted);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.order-item input[type="number"] {
+  flex: 0 0 70px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.remove-item-btn {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: .85rem;
+  border-radius: 50%;
+  background: #c0392b;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-item-btn:hover {
+  background: #a93226;
+  transform: none;
+}
+
+#add-item-btn {
+  background: none;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  box-shadow: none;
+  font-size: .82rem;
+  padding: 7px 16px;
+  align-self: flex-start;
+}
+
+#add-item-btn:hover {
+  background: var(--accent);
+  color: white;
+  transform: none;
+  box-shadow: none;
+}
+
 /* ============================================================
    RESPONSIVE — TABLET (max-width: 860px)
    ============================================================ */

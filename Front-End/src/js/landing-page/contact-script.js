@@ -31,3 +31,30 @@ const form = document.querySelector('.contact-form');
     btn.disabled = false;
   }
 });
+
+// Add item button
+document.getElementById('add-item-btn').addEventListener('click', () => {
+  const container = document.getElementById('order-items');
+  const firstItem = container.querySelector('.order-item');
+  const newItem = firstItem.cloneNode(true);
+
+  // Reset values
+  newItem.querySelector('select').value = '';
+  newItem.querySelector('input[type="number"]').value = 1;
+
+  // Re-attach remove button
+  newItem.querySelector('.remove-item-btn').onclick = function() {
+    removeItem(this);
+  };
+
+  container.appendChild(newItem);
+});
+
+function removeItem(btn) {
+  const items = document.querySelectorAll('.order-item');
+  if (items.length > 1) {
+    btn.parentElement.remove();
+  } else {
+    alert('At least one product is required.');
+  }
+}

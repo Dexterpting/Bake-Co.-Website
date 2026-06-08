@@ -15,7 +15,7 @@ async function loadOrders() {
       <td>${escapeHtml(row.phone)}</td>
       <td>${escapeHtml(row.address)}</td>
       <td>${escapeHtml(row.landmark)}</td>
-      <td>${escapeHtml(row.order).replace(/\n/g, '<br>')}</td>
+      <td>${escapeHtml(row.order_items).replace(/\n/g, '<br>')}</td>
       <td>${row.submitted_at}</td>
       <td><a class="delete" href="/Back-End/admin.php?delete=${row.id}&from=orders" data-id="${row.id}">Delete</a></td>
     </tr>

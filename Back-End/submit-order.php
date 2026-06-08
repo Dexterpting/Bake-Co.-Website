@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
     header('Content-Type: application/json');
     header('Access-Control-Allow-Origin: *');
 
@@ -15,14 +18,27 @@ $name     = trim($_POST['name']     ?? '');
 $phone    = trim($_POST['number']   ?? '');
 $address  = trim($_POST['address']  ?? '');
 $landmark = trim($_POST['landmark'] ?? '');
-$order    = trim($_POST['message']  ?? '');
 
-// Basic validation
+// Build order summary from product and quantity arrays
+$products  = $_POST['product']  ?? [];
+$quantities = $_POST['quantity'] ?? [];
+$orderLines = [];
+
+foreach ($products as $i => $product) {
+    $product  = trim($product);
+    $qty      = (int) ($quantities[$i] ?? 1);
+    if ($product !== '') {
+        $orderLines[] = "x{$qty} {$product}";
+    }
+}
+
+$order = implode(', ', $orderLines);
+
 $errors = [];
-if ($name === '')    $errors[] = 'Name is required.';
-if ($phone === '')   $errors[] = 'Phone number is required.';
-if ($address === '') $errors[] = 'Address is required.';
-if ($order === '')   $errors[] = 'Order is required.';
+if ($name === '')         $errors[] = 'Name is required.';
+if ($phone === '')        $errors[] = 'Phone number is required.';
+if ($address === '')      $errors[] = 'Address is required.';
+if (empty($orderLines))   $errors[] = 'At least one product is required.';
 
 if (!empty($errors)) {
     http_response_code(422);
@@ -32,7 +48,7 @@ if (!empty($errors)) {
 
 // Insert into database
 $stmt = $conn->prepare(
-    'INSERT INTO orders (name, phone, address, landmark, `order`) VALUES (?, ?, ?, ?, ?)'
+    'INSERT INTO orders (name, phone, address, landmark, order_items) VALUES (?, ?, ?, ?, ?)'
 );
 $stmt->bind_param('sssss', $name, $phone, $address, $landmark, $order);
 
@@ -49,14 +65,14 @@ if ($stmt->execute()) {
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'bakeco26@gmail.com';    // your Gmail
-        $mail->Password   = 'your_app_password_here'; // Gmail App Password
+        $mail->Username   = 'derkerpaultingal15062@gmail.com';    // your Gmail
+        $mail->Password   = 'gdnt xbuq fxyi lonx'; // Gmail App Password
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
 
         // Email content
-        $mail->setFrom('bakeco26@gmail.com', 'Bake & Co. Website');
-        $mail->addAddress('bakeco26@gmail.com');     // where to receive notifications
+        $mail->setFrom('derkerpaultingal15062@gmail.com', 'Bake & Co. Website'); //change to actual bake&co email address
+        $mail->addAddress('derkerpaultingal15062@gmail.com');     // where to receive notifications
         $mail->Subject = 'New Order Received — Bake & Co.';
         $mail->isHTML(true);
         $mail->Body = "

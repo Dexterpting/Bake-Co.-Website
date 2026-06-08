@@ -46,7 +46,7 @@
               <td><?= htmlspecialchars($row['phone']) ?></td>
               <td><?= htmlspecialchars($row['address']) ?></td>
               <td><?= htmlspecialchars($row['landmark']) ?></td>
-              <td><?= nl2br(htmlspecialchars($row['order'])) ?></td>
+              <td><?= nl2br(htmlspecialchars($row['order_items'])) ?></td>
               <td><?= $row['submitted_at'] ?></td>
               <td><a class="delete" href="?delete=<?= $row['id'] ?>&from=dashboard" onclick="return confirm('Delete this order?')">Delete</a></td>
             </tr>

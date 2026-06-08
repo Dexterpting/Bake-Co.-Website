@@ -93,12 +93,21 @@
 
         <div class="contact-form-wrapper" >
             <form class="contact-form" method="POST">
-                <input type="text"  name="name" placeholder="Name"/>
+                <input type="text" name="name" placeholder="Name"/>
                 <input type="tel" name="number" placeholder="Phone Number"/>
                 <input type="text" name="address" placeholder="Location for delivery"/>
                 <input type="text" name="landmark" placeholder="Landmark for the delivery location">
-                <textarea name="message" placeholder="Order" rows="4"></textarea>
-                <button type="submit">Submit</button>
+                
+                <!-- Order Items -->
+                <div id="order-items">
+                    <div class="order-item">
+                        <input type="text" name="product[]" placeholder="Product (e.g. Classic Cheese Ensaymada)"/>
+                        <input type="number" name="quantity[]" placeholder="Qty" min="1" value="1"/>
+                        <button type="button" class="remove-item-btn" onclick="removeItem(this)">✕</button>
+                    </div>
+                </div>
+                <button type="button" id="add-item-btn">+ Add Another Product</button>
+                <button type="submit">Submit Order</button>
             </form>
         </div>
     </section>
