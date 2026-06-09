@@ -676,6 +676,13 @@ button:active { transform: translateY(0); }
   box-shadow: none;
 }
 
+#modal-order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
 .contact .contact-form-wrapper #order-items,
 .contact .contact-form-wrapper #add-item-btn {
   display: none;
