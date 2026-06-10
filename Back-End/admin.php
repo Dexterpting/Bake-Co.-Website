@@ -1,6 +1,8 @@
 <?php
 session_start();
-$admin_password = 'bakeco2024';
+
+require_once __DIR__ . '/config.php';
+$admin_password = ADMIN_PASS;
 
 define('BASE_URL', 'https://bake-co.infinityfree.me/Back-End/');
 define('ASSET_URL', 'https://bake-co.infinityfree.me/Front-End/');
