@@ -61,10 +61,11 @@ if (isset($_GET['delete_product'])) {
 
 // Add products
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
-    $name        = trim($_POST['prod_name'] ?? '');
+    $name        = trim($_POST['prod_name']        ?? '');
     $description = trim($_POST['prod_description'] ?? '');
-    $category    = trim($_POST['prod_category'] ?? '');
-
+    $category    = trim($_POST['prod_category']    ?? '');
+    $price       = (float) ($_POST['prod_price']   ?? 0);
+    $unit        = trim($_POST['prod_unit']        ?? 'per box');
     $imageFilename = '';
 
     // Handle file upload
@@ -87,11 +88,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     }
 
     if ($name && $description && $category && $imageFilename) {
-        $stmt = $conn->prepare('INSERT INTO products (name, description, category, image) VALUES (?, ?, ?, ?)');
-        $stmt->bind_param('ssss', $name, $description, $category, $imageFilename);
-        $stmt->execute();
-        $stmt->close();
-    }
+    $stmt = $conn->prepare('INSERT INTO products (name, description, category, price, unit, image) VALUES (?, ?, ?, ?, ?, ?)');
+    $stmt->bind_param('sssdss', $name, $description, $category, $price, $unit, $imageFilename);
+    $stmt->execute();
+    $stmt->close();
+}
 
     header('Location: ' . BASE_URL . 'admin.php?page=products');
     exit;

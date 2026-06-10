@@ -51,8 +51,9 @@
   ?>
   <div class="card" data-category="<?= htmlspecialchars($row['category']) ?>">
     <h2><?= htmlspecialchars($row['name']) ?></h2>
-    <img src="<?= $imgPath ?>" alt="<?= htmlspecialchars($row['name']) ?>">
+    <img src="./src/img/<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>">
     <p><?= htmlspecialchars($row['description']) ?></p>
+    <p class="card-price">₱<?= number_format($row['price'], 2) ?> <span class="card-unit"><?= htmlspecialchars($row['unit']) ?></span></p>
     <button onclick="openOrderModal('<?= htmlspecialchars($row['name']) ?>')">Order Now</button>
   </div>
   <?php endwhile; ?>
