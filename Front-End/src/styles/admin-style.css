@@ -253,6 +253,86 @@ tr:hover td { background: #fff9f1; }
   background: #fff3e0;
 }
 
+/* ===== STATS FILTER ===== */
+.stats-filter {
+  background: white;
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.filter-form { width: 100%; }
+
+.filter-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 130px;
+}
+
+.filter-group label {
+  font-size: .78rem;
+  font-weight: 700;
+  color: #7b6553;
+}
+
+.filter-group input[type="date"],
+.filter-group select {
+  padding: 8px 12px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: .85rem;
+  font-family: sans-serif;
+  color: #3d2a1a;
+  background: white;
+  cursor: pointer;
+}
+
+.filter-group input[type="date"]:focus,
+.filter-group select:focus {
+  outline: none;
+  border-color: #c9933d;
+}
+
+.filter-btn {
+  padding: 8px 20px;
+  background: #c9933d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: .85rem;
+  align-self: flex-end;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+
+.filter-btn:hover { background: #a9742e; }
+
+.filter-reset {
+  padding: 8px 16px;
+  color: #7b6553;
+  font-size: .85rem;
+  text-decoration: none;
+  align-self: flex-end;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.filter-reset:hover {
+  border-color: #c9933d;
+  color: #c9933d;
+}
+
 /* ===== RESPONSIVE — TABLET ===== */
 @media (max-width: 768px) {
   .dashboard { padding: 16px; gap: 20px; }
@@ -266,6 +346,12 @@ tr:hover td { background: #fff9f1; }
   .form-grid { grid-template-columns: 1fr; }
   .form-group.full-width { grid-column: 1; }
   .add-product-form button { width: 100%; text-align: center; }
+  
+  /* ===== RESPONSIVE FILTER ===== */
+  .filter-row { flex-direction: column; }
+  .filter-group { min-width: 100%; }
+  .filter-btn,
+  .filter-reset { width: 100%; text-align: center; }
 }
 
 /* ===== RESPONSIVE — MOBILE ===== */
