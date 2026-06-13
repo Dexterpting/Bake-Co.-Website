@@ -150,7 +150,7 @@
     </div>
   </div>
 
-  <script src="Front-End/src/js/admin-page/admin-script.js"></script>
+  <script src="/Front-End/src/js/admin-page/admin-script.js"></script>
 
 </body>
 </html>

@@ -158,6 +158,6 @@
     </div>
   </div>
 
-  <script src="/Front-End/src/admin-page/admin-prod-script.js"></script>
+  <script src="/Front-End/src/js/admin-page/admin-prod-script.js"></script>
 </body>
 </html>
