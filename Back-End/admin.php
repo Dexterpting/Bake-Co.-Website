@@ -59,6 +59,47 @@ if (isset($_GET['delete_product'])) {
     exit;
 }
 
+// Edit product
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_product'])) {
+    $id          = (int) $_POST['edit_id'];
+    $name        = trim($_POST['prod_name']        ?? '');
+    $description = trim($_POST['prod_description'] ?? '');
+    $category    = trim($_POST['prod_category']    ?? '');
+    $price       = (float) ($_POST['prod_price']   ?? 0);
+    $unit        = trim($_POST['prod_unit']        ?? 'per box');
+
+    // Handle new image upload if provided
+    if (isset($_FILES['prod_image']) && $_FILES['prod_image']['error'] === 0) {
+        $allowed    = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        $maxSize    = 5 * 1024 * 1024;
+        $fileType   = $_FILES['prod_image']['type'];
+        $fileSize   = $_FILES['prod_image']['size'];
+        $tmpName    = $_FILES['prod_image']['tmp_name'];
+        $origName   = basename($_FILES['prod_image']['name']);
+        $ext        = pathinfo($origName, PATHINFO_EXTENSION);
+        $newName    = uniqid('product_') . '.' . $ext;
+        $uploadPath = '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/src/img/' . $newName;
+
+        if (in_array($fileType, $allowed) && $fileSize <= $maxSize) {
+            if (move_uploaded_file($tmpName, $uploadPath)) {
+                $stmt = $conn->prepare('UPDATE products SET name=?, description=?, category=?, price=?, unit=?, image=? WHERE id=?');
+                $stmt->bind_param('sssdss i', $name, $description, $category, $price, $unit, $newName, $id);
+                $stmt->execute();
+                $stmt->close();
+            }
+        }
+    } else {
+        // No new image — update without image
+        $stmt = $conn->prepare('UPDATE products SET name=?, description=?, category=?, price=?, unit=? WHERE id=?');
+        $stmt->bind_param('sssdsi', $name, $description, $category, $price, $unit, $id);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    header('Location: ' . BASE_URL . 'admin.php?page=products');
+    exit;
+}
+
 // Add products
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $name        = trim($_POST['prod_name']        ?? '');
@@ -109,28 +150,52 @@ if ($page === 'orders') {
     include '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/pages/admin/products.html.php';
 } else {
     $total_orders = $conn->query('SELECT COUNT(*) as count FROM orders')->fetch_assoc()['count'];
+    $total_sales  = $conn->query("SELECT COALESCE(SUM(total_amount), 0) as total FROM orders $stats_where")->fetch_assoc()['total'];
+    $total_boxes  = $conn->query("SELECT COALESCE(SUM(total_qty), 0) as total FROM orders $stats_where")->fetch_assoc()['total'];
 
-    // Date filter
-    $date_from = $_GET['date_from'] ?? '';
-    $date_to   = $_GET['date_to']   ?? '';
+    // Stats filter
+    $date_from = isset($_GET['date_from']) ? $conn->real_escape_string($_GET['date_from']) : '';
+    $date_to   = isset($_GET['date_to'])   ? $conn->real_escape_string($_GET['date_to'])   : '';
     $filter_by = $_GET['filter_by'] ?? '';
 
-    $where = '';
-    if ($filter_by === 'today') {
-        $where = "WHERE DATE(submitted_at) = CURDATE()";
+    // Build WHERE clause for stats — default is today
+    if ($filter_by === 'all') {
+        $stats_where = '';
+    } elseif ($filter_by === 'tomorrow') {
+        $stats_where = "WHERE DATE(submitted_at) = DATE_ADD(CURDATE(), INTERVAL 1 DAY)";
     } elseif ($filter_by === 'week') {
-        $where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
+        $stats_where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
     } elseif ($filter_by === 'month') {
-        $where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)";
-    } elseif ($date_from && $date_to) {
-        $date_from = $conn->real_escape_string($date_from);
-        $date_to   = $conn->real_escape_string($date_to);
-        $where = "WHERE DATE(submitted_at) BETWEEN '$date_from' AND '$date_to'";
+        $stats_where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)";
+    } elseif ($filter_by === '' && $date_from && $date_to) {
+        $stats_where = "WHERE DATE(submitted_at) BETWEEN '$date_from' AND '$date_to'";
+    } else {
+        $stats_where = "WHERE DATE(submitted_at) = CURDATE()";
+    }
+
+    // Recent orders filter
+    $orders_date_from = isset($_GET['orders_date_from']) ? $conn->real_escape_string($_GET['orders_date_from']) : '';
+    $orders_date_to   = isset($_GET['orders_date_to'])   ? $conn->real_escape_string($_GET['orders_date_to'])   : '';
+    $orders_filter    = $_GET['orders_filter'] ?? '';
+
+    // Build WHERE clause for orders — default is today
+    if ($orders_filter === 'all') {
+        $orders_where = '';
+    } elseif ($orders_filter === 'tomorrow') {
+        $orders_where = "WHERE DATE(submitted_at) = DATE_ADD(CURDATE(), INTERVAL 1 DAY)";
+    } elseif ($orders_filter === 'week') {
+        $orders_where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
+    } elseif ($orders_filter === 'month') {
+        $orders_where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)";
+    } elseif ($orders_filter === '' && $orders_date_from && $orders_date_to) {
+        $orders_where = "WHERE DATE(submitted_at) BETWEEN '$orders_date_from' AND '$orders_date_to'";
+    } else {
+        $orders_where = "WHERE DATE(submitted_at) = CURDATE()";
     }
 
     $recent_limit = isset($_GET['show_all']) ? 999 : 10;
-    $recent = $conn->query("SELECT * FROM orders ORDER BY submitted_at DESC LIMIT $recent_limit");
-    $total_recent = $conn->query('SELECT COUNT(*) as count FROM orders')->fetch_assoc()['count'];
+    $total_recent = $conn->query("SELECT COUNT(*) as count FROM orders $orders_where")->fetch_assoc()['count'];
+    $recent       = $conn->query("SELECT * FROM orders $orders_where ORDER BY submitted_at DESC LIMIT $recent_limit");
 
     include '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/pages/admin/dashboard.html.php';
 }
