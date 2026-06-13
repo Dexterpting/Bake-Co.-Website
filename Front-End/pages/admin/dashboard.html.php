@@ -16,7 +16,6 @@
     <div class="stats-filter">
       <form method="GET" action="/Back-End/admin.php" class="filter-form">
         <input type="hidden" name="page" value="dashboard">
-        <?php // preserve orders filter values ?>
         <input type="hidden" name="orders_date_from" value="<?= htmlspecialchars($_GET['orders_date_from'] ?? '') ?>">
         <input type="hidden" name="orders_date_to" value="<?= htmlspecialchars($_GET['orders_date_to'] ?? '') ?>">
         <input type="hidden" name="orders_filter" value="<?= htmlspecialchars($_GET['orders_filter'] ?? '') ?>">
@@ -45,16 +44,17 @@
       </form>
 
       <!-- Stats Cards -->
-    <div class="stats">
-      <div class="stat-card">
-        <p class="stat-label">Total Sales</p>
-        <p class="stat-number">₱<?= number_format($total_sales, 2) ?></p>
+      <div class="stats">
+        <div class="stat-card">
+          <p class="stat-label">Total Sales</p>
+          <p class="stat-number">₱<?= number_format($total_sales, 2) ?></p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Total Box Sold</p>
+          <p class="stat-number"><?= number_format($total_boxes) ?></p>
+        </div>
       </div>
-      <div class="stat-card">
-        <p class="stat-label">Total Box Sold</p>
-        <p class="stat-number"><?= number_format($total_boxes) ?></p>
-      </div>
-    </div>
+    </div> <!-- END stats-filter -->
 
     <!-- Quick Links -->
     <div class="quick-links">
@@ -72,7 +72,6 @@
       <!-- Orders Filter -->
       <form method="GET" action="/Back-End/admin.php" class="filter-form" style="margin-bottom:16px;">
         <input type="hidden" name="page" value="dashboard">
-        <?php // preserve stats filter values ?>
         <input type="hidden" name="date_from" value="<?= htmlspecialchars($_GET['date_from'] ?? '') ?>">
         <input type="hidden" name="date_to" value="<?= htmlspecialchars($_GET['date_to'] ?? '') ?>">
         <input type="hidden" name="filter_by" value="<?= htmlspecialchars($_GET['filter_by'] ?? '') ?>">
@@ -88,11 +87,11 @@
           <div class="filter-group">
             <label>Filter By</label>
             <select name="orders_filter">
-              <option value="today" <?= ($orders_filter === 'today' || $orders_filter === '') ? 'selected' : '' ?>>Today</option>
+              <option value="today"    <?= ($orders_filter === 'today'    || $orders_filter === '') ? 'selected' : '' ?>>Today</option>
               <option value="tomorrow" <?= ($orders_filter === 'tomorrow') ? 'selected' : '' ?>>Tomorrow</option>
-              <option value="week"  <?= ($orders_filter === 'week')  ? 'selected' : '' ?>>Last 7 Days</option>
-              <option value="month" <?= ($orders_filter === 'month') ? 'selected' : '' ?>>Last 30 Days</option>
-              <option value="all"   <?= ($orders_filter === 'all')   ? 'selected' : '' ?>>All Time</option>
+              <option value="week"     <?= ($orders_filter === 'week')     ? 'selected' : '' ?>>Last 7 Days</option>
+              <option value="month"    <?= ($orders_filter === 'month')    ? 'selected' : '' ?>>Last 30 Days</option>
+              <option value="all"      <?= ($orders_filter === 'all')      ? 'selected' : '' ?>>All Time</option>
             </select>
           </div>
           <button type="submit" class="filter-btn">Apply</button>
@@ -150,5 +149,8 @@
 
     </div>
   </div>
+
+  <script src="Front-End/src/js/admin-page/admin-script.js"></script>
+
 </body>
 </html>

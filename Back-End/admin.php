@@ -59,6 +59,47 @@ if (isset($_GET['delete_product'])) {
     exit;
 }
 
+// Edit product
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_product'])) {
+    $id          = (int) $_POST['edit_id'];
+    $name        = trim($_POST['prod_name']        ?? '');
+    $description = trim($_POST['prod_description'] ?? '');
+    $category    = trim($_POST['prod_category']    ?? '');
+    $price       = (float) ($_POST['prod_price']   ?? 0);
+    $unit        = trim($_POST['prod_unit']        ?? 'per box');
+
+    // Handle new image upload if provided
+    if (isset($_FILES['prod_image']) && $_FILES['prod_image']['error'] === 0) {
+        $allowed    = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        $maxSize    = 5 * 1024 * 1024;
+        $fileType   = $_FILES['prod_image']['type'];
+        $fileSize   = $_FILES['prod_image']['size'];
+        $tmpName    = $_FILES['prod_image']['tmp_name'];
+        $origName   = basename($_FILES['prod_image']['name']);
+        $ext        = pathinfo($origName, PATHINFO_EXTENSION);
+        $newName    = uniqid('product_') . '.' . $ext;
+        $uploadPath = '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/src/img/' . $newName;
+
+        if (in_array($fileType, $allowed) && $fileSize <= $maxSize) {
+            if (move_uploaded_file($tmpName, $uploadPath)) {
+                $stmt = $conn->prepare('UPDATE products SET name=?, description=?, category=?, price=?, unit=?, image=? WHERE id=?');
+                $stmt->bind_param('sssdss i', $name, $description, $category, $price, $unit, $newName, $id);
+                $stmt->execute();
+                $stmt->close();
+            }
+        }
+    } else {
+        // No new image — update without image
+        $stmt = $conn->prepare('UPDATE products SET name=?, description=?, category=?, price=?, unit=? WHERE id=?');
+        $stmt->bind_param('sssdsi', $name, $description, $category, $price, $unit, $id);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    header('Location: ' . BASE_URL . 'admin.php?page=products');
+    exit;
+}
+
 // Add products
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $name        = trim($_POST['prod_name']        ?? '');
