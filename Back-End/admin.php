@@ -61,10 +61,11 @@ if (isset($_GET['delete_product'])) {
 
 // Add products
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
-    $name        = trim($_POST['prod_name'] ?? '');
+    $name        = trim($_POST['prod_name']        ?? '');
     $description = trim($_POST['prod_description'] ?? '');
-    $category    = trim($_POST['prod_category'] ?? '');
-
+    $category    = trim($_POST['prod_category']    ?? '');
+    $price       = (float) ($_POST['prod_price']   ?? 0);
+    $unit        = trim($_POST['prod_unit']        ?? 'per box');
     $imageFilename = '';
 
     // Handle file upload
@@ -87,11 +88,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     }
 
     if ($name && $description && $category && $imageFilename) {
-        $stmt = $conn->prepare('INSERT INTO products (name, description, category, image) VALUES (?, ?, ?, ?)');
-        $stmt->bind_param('ssss', $name, $description, $category, $imageFilename);
-        $stmt->execute();
-        $stmt->close();
-    }
+    $stmt = $conn->prepare('INSERT INTO products (name, description, category, price, unit, image) VALUES (?, ?, ?, ?, ?, ?)');
+    $stmt->bind_param('sssdss', $name, $description, $category, $price, $unit, $imageFilename);
+    $stmt->execute();
+    $stmt->close();
+}
 
     header('Location: ' . BASE_URL . 'admin.php?page=products');
     exit;
@@ -102,13 +103,35 @@ $page = $_GET['page'] ?? 'dashboard';
 
 if ($page === 'orders') {
     $result = $conn->query('SELECT * FROM orders ORDER BY submitted_at DESC');
-    include __DIR__ . '/../Front-End/pages/admin/orders.html.php';
+    include '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/pages/admin/orders.html.php';
 } elseif ($page === 'products') {
     $products = $conn->query('SELECT * FROM products ORDER BY category, created_at DESC');
-    include __DIR__ . '/../Front-End/pages/admin/products.html.php';
+    include '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/pages/admin/products.html.php';
 } else {
-    $total  = $conn->query('SELECT COUNT(*) as count FROM orders')->fetch_assoc()['count'];
-    $recent = $conn->query('SELECT * FROM orders ORDER BY submitted_at DESC LIMIT 5');
-    include __DIR__ . '/../Front-End/pages/admin/dashboard.html.php';
+    $total_orders = $conn->query('SELECT COUNT(*) as count FROM orders')->fetch_assoc()['count'];
+
+    // Date filter
+    $date_from = $_GET['date_from'] ?? '';
+    $date_to   = $_GET['date_to']   ?? '';
+    $filter_by = $_GET['filter_by'] ?? '';
+
+    $where = '';
+    if ($filter_by === 'today') {
+        $where = "WHERE DATE(submitted_at) = CURDATE()";
+    } elseif ($filter_by === 'week') {
+        $where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
+    } elseif ($filter_by === 'month') {
+        $where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)";
+    } elseif ($date_from && $date_to) {
+        $date_from = $conn->real_escape_string($date_from);
+        $date_to   = $conn->real_escape_string($date_to);
+        $where = "WHERE DATE(submitted_at) BETWEEN '$date_from' AND '$date_to'";
+    }
+
+    $recent_limit = isset($_GET['show_all']) ? 999 : 10;
+    $recent = $conn->query("SELECT * FROM orders ORDER BY submitted_at DESC LIMIT $recent_limit");
+    $total_recent = $conn->query('SELECT COUNT(*) as count FROM orders')->fetch_assoc()['count'];
+
+    include '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/pages/admin/dashboard.html.php';
 }
 ?>

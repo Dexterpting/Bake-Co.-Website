@@ -43,6 +43,19 @@
             <textarea name="prod_description" rows="3" placeholder="Describe the product..." required></textarea>
           </div>
         </div>
+        <div class="form-group">
+          <label>Price (₱)</label>
+          <input type="number" name="prod_price" placeholder="e.g. 150" min="0" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label>Unit / Sold As</label>
+          <select name="prod_unit">
+            <option value="per box">Per Box</option>
+            <option value="per piece">Per Piece</option>
+            <option value="per slice">Per Slice</option>
+            <option value="per dozen">Per Dozen</option>
+          </select>
+        </div>
         <button type="submit" name="add_product">Add Product</button>
       </form>
     </div>
@@ -56,6 +69,8 @@
             <th>#</th>
             <th>Name</th>
             <th>Category</th>
+            <th>Price</th>
+            <th>Unit</th>
             <th>Description</th>
             <th>Image</th>
             <th>Date Added</th>
@@ -63,21 +78,19 @@
           </tr>
         </thead>
         <tbody>
-          <?php if ($products->num_rows === 0): ?>
-          <tr><td colspan="7" style="text-align:center;color:#7b6553;">No products yet.</td></tr>
-          <?php else: ?>
           <?php while ($row = $products->fetch_assoc()): ?>
           <tr>
             <td><?= $row['id'] ?></td>
             <td><?= htmlspecialchars($row['name']) ?></td>
             <td><?= htmlspecialchars($row['category']) ?></td>
+            <td>₱<?= number_format($row['price'], 2) ?></td>
+            <td><?= htmlspecialchars($row['unit']) ?></td>
             <td><?= htmlspecialchars($row['description']) ?></td>
             <td><img src="/Front-End/src/img/<?= htmlspecialchars($row['image']) ?>" style="width:60px;height:60px;object-fit:cover;border-radius:6px;"></td>
             <td><?= $row['created_at'] ?></td>
             <td><a class="delete" href="/Back-End/admin.php?delete_product=<?= $row['id'] ?>&from=products" onclick="return confirm('Delete this product?')">Delete</a></td>
           </tr>
           <?php endwhile; ?>
-          <?php endif; ?>
         </tbody>
       </table>
     </div>
