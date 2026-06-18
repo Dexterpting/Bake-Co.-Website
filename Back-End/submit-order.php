@@ -76,14 +76,14 @@ if ($stmt->execute()) {
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'derkerpaultingal15062@gmail.com';    // your Gmail
-        $mail->Password   = 'gdnt xbuq fxyi lonx'; // Gmail App Password
+        $mail->Username   = MAIL_USER;   // your Gmail
+        $mail->Password   = MAIL_PASS;   // Gmail App Password
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
 
         // Email content
-        $mail->setFrom('derkerpaultingal15062@gmail.com', 'Bake & Co. Website'); //change to actual bake&co email address
-        $mail->addAddress('derkerpaultingal15062@gmail.com');                    // where to receive notifications
+        $mail->setFrom(MAIL_USER, 'Bake & Co. Website'); //change to actual bake&co email address
+        $mail->addAddress(MAIL_TO);                    // where to receive notifications
         $mail->Subject = 'New Order Received — Bake & Co.';
         $mail->isHTML(true);
         $mail->Body = "

@@ -150,16 +150,16 @@ if ($page === 'orders') {
     include '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/pages/admin/products.html.php';
 } else {
     $total_orders = $conn->query('SELECT COUNT(*) as count FROM orders')->fetch_assoc()['count'];
-    $total_sales  = $conn->query("SELECT COALESCE(SUM(total_amount), 0) as total FROM orders $stats_where")->fetch_assoc()['total'];
-    $total_boxes  = $conn->query("SELECT COALESCE(SUM(total_qty), 0) as total FROM orders $stats_where")->fetch_assoc()['total'];
 
-    // Stats filter
+    // 1. Define filters first
     $date_from = isset($_GET['date_from']) ? $conn->real_escape_string($_GET['date_from']) : '';
     $date_to   = isset($_GET['date_to'])   ? $conn->real_escape_string($_GET['date_to'])   : '';
     $filter_by = $_GET['filter_by'] ?? '';
 
-    // Build WHERE clause for stats — default is today
-    if ($filter_by === 'all') {
+    // 2. Build $stats_where
+    if ($date_from && $date_to) {
+        $stats_where = "WHERE DATE(submitted_at) BETWEEN '$date_from' AND '$date_to'";
+    } elseif ($filter_by === 'all') {
         $stats_where = '';
     } elseif ($filter_by === 'tomorrow') {
         $stats_where = "WHERE DATE(submitted_at) = DATE_ADD(CURDATE(), INTERVAL 1 DAY)";
@@ -167,19 +167,22 @@ if ($page === 'orders') {
         $stats_where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
     } elseif ($filter_by === 'month') {
         $stats_where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)";
-    } elseif ($filter_by === '' && $date_from && $date_to) {
-        $stats_where = "WHERE DATE(submitted_at) BETWEEN '$date_from' AND '$date_to'";
     } else {
         $stats_where = "WHERE DATE(submitted_at) = CURDATE()";
     }
+
+    // 3. ONLY THEN query total_sales and total_boxes
+    $total_sales = $conn->query("SELECT COALESCE(SUM(total_amount), 0) as total FROM orders $stats_where")->fetch_assoc()['total'];
+    $total_boxes = $conn->query("SELECT COALESCE(SUM(total_qty), 0) as total FROM orders $stats_where")->fetch_assoc()['total'];
 
     // Recent orders filter
     $orders_date_from = isset($_GET['orders_date_from']) ? $conn->real_escape_string($_GET['orders_date_from']) : '';
     $orders_date_to   = isset($_GET['orders_date_to'])   ? $conn->real_escape_string($_GET['orders_date_to'])   : '';
     $orders_filter    = $_GET['orders_filter'] ?? '';
 
-    // Build WHERE clause for orders — default is today
-    if ($orders_filter === 'all') {
+    if ($orders_date_from && $orders_date_to) {
+    $orders_where = "WHERE DATE(submitted_at) BETWEEN '$orders_date_from' AND '$orders_date_to'";
+    } elseif ($orders_filter === 'all') {
         $orders_where = '';
     } elseif ($orders_filter === 'tomorrow') {
         $orders_where = "WHERE DATE(submitted_at) = DATE_ADD(CURDATE(), INTERVAL 1 DAY)";
@@ -187,8 +190,6 @@ if ($page === 'orders') {
         $orders_where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
     } elseif ($orders_filter === 'month') {
         $orders_where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)";
-    } elseif ($orders_filter === '' && $orders_date_from && $orders_date_to) {
-        $orders_where = "WHERE DATE(submitted_at) BETWEEN '$orders_date_from' AND '$orders_date_to'";
     } else {
         $orders_where = "WHERE DATE(submitted_at) = CURDATE()";
     }
