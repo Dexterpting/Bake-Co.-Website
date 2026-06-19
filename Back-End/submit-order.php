@@ -6,10 +6,24 @@
     header('Access-Control-Allow-Origin: *');
 
     require __DIR__ . '/db.php';
+    require __DIR__ . '/rate-limiter.php';
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         http_response_code(405);
         echo json_encode(['success' => false, 'message' => 'Method not allowed.']);
+        exit;
+    }
+
+    // Rate limit: max 3 order submissions per 10 minutes per IP
+    $rateCheck = checkRateLimit($conn, 'submit_order', 3, 600);
+
+    if (!$rateCheck['allowed']) {
+        http_response_code(429);
+        $minutes = ceil($rateCheck['retry_after'] / 60);
+        echo json_encode([
+            'success' => false,
+            'message' => "Too many orders submitted. Please try again in {$minutes} minute(s)."
+        ]);
         exit;
     }
 

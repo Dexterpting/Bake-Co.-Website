@@ -13,8 +13,17 @@ if (isset($_GET['logout'])) {
     exit;
 }
 
+// db.php moved up here so $conn is available for rate limiting
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/rate-limiter.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password'])) {
-    if ($_POST['password'] === $admin_password) {
+    $loginCheck = checkRateLimit($conn, 'admin_login', 5, 900);
+
+    if (!$loginCheck['allowed']) {
+        $minutes = ceil($loginCheck['retry_after'] / 60);
+        $error = "Too many login attempts. Please try again in {$minutes} minute(s).";
+    } elseif ($_POST['password'] === $admin_password) {
         $_SESSION['admin'] = true;
         header('Location: ' . BASE_URL . 'admin.php');
         exit;
@@ -28,8 +37,6 @@ if (!isset($_SESSION['admin'])) {
     include __DIR__ . '/../Front-End/pages/admin/login.html.php';
     exit;
 }
-
-require_once __DIR__ . '/db.php';
 
 // API endpoint
 if (isset($_GET['api'])) {
@@ -51,7 +58,7 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
-    // Delete product
+// Delete product
 if (isset($_GET['delete_product'])) {
     $id = (int) $_GET['delete_product'];
     $conn->query("DELETE FROM products WHERE id = $id");
