@@ -39,6 +39,7 @@ $quantities = $_POST['quantity'] ?? [];
 $orderLines = [];
 $total_amount = 0;
 $total_qty    = 0;
+$unitLines = [];
 
 foreach ($products as $i => $product) {
     $product  = trim($product);
@@ -47,17 +48,22 @@ foreach ($products as $i => $product) {
         $orderLines[]  = "x{$qty} {$product}";
         $total_qty    += $qty;
 
-        // Look up price from products table
+        // Look up price AND unit from products table
         $safe_product = $conn->real_escape_string($product);
-        $price_result = $conn->query("SELECT price FROM products WHERE name = '$safe_product' LIMIT 1");
+        $price_result = $conn->query("SELECT price, unit FROM products WHERE name = '$safe_product' LIMIT 1");
         if ($price_result && $price_result->num_rows > 0) {
-            $price         = (float) $price_result->fetch_assoc()['price'];
-            $total_amount += $price * $qty;
+            $prod_data      = $price_result->fetch_assoc();
+            $price          = (float) $prod_data['price'];
+            $total_amount  += $price * $qty;
+            $unitLines[]    = $prod_data['unit'];
+        } else {
+            $unitLines[] = 'per box';
         }
     }
 }
 
 $order = implode(', ', $orderLines);
+$order_units = implode(', ', $unitLines);
 
 $errors = [];
 if ($name === '')         $errors[] = 'Name is required.';
@@ -73,9 +79,9 @@ if (!empty($errors)) {
 
 // Insert into database
 $stmt = $conn->prepare(
-    'INSERT INTO orders (name, phone, address, landmark, order_items, total_amount, total_qty) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    'INSERT INTO orders (name, phone, address, landmark, order_items, order_units, total_amount, total_qty) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
 );
-$stmt->bind_param('sssssdi', $name, $phone, $address, $landmark, $order, $total_amount, $total_qty);
+$stmt->bind_param('ssssssdi', $name, $phone, $address, $landmark, $order, $order_units, $total_amount, $total_qty);
 
 if ($stmt->execute()) {
     // Send email notification

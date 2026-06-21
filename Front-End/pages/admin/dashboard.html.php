@@ -29,7 +29,7 @@
             <input type="date" name="date_to" value="<?= htmlspecialchars($_GET['date_to'] ?? '') ?>">
           </div>
           <div class="filter-group">
-            <label>Filter By</label>
+            <label>Filter By Date</label>
             <select name="filter_by">
               <option value="today"    <?= ($filter_by === 'today'    || $filter_by === '') ? 'selected' : '' ?>>Today</option>
               <option value="tomorrow" <?= ($filter_by === 'tomorrow') ? 'selected' : '' ?>>Tomorrow</option>
@@ -109,13 +109,15 @@
               <th>Address</th>
               <th>Landmark</th>
               <th>Order</th>
+              <th>Quantity</th>
+              <th>Unit Sold</th>
               <th>Date Order Placed</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             <?php if ($recent->num_rows === 0): ?>
-            <tr><td colspan="8" style="text-align:center;color:#7b6553;padding:24px;">No orders found.</td></tr>
+            <tr><td colspan="10" style="text-align:center;color:#7b6553;padding:24px;">No orders found.</td></tr>
             <?php else: ?>
             <?php while ($row = $recent->fetch_assoc()): ?>
             <tr>
@@ -125,6 +127,8 @@
               <td><?= htmlspecialchars($row['address']) ?></td>
               <td><?= htmlspecialchars($row['landmark']) ?></td>
               <td><?= nl2br(htmlspecialchars($row['order_items'])) ?></td>
+              <td><?= $row['total_qty'] ?></td>
+              <td><?= htmlspecialchars($row['order_units']) ?></td>
               <td><?= $row['submitted_at'] ?></td>
               <td><a class="delete" href="/Back-End/admin.php?delete=<?= $row['id'] ?>&from=dashboard" onclick="return confirm('Delete this order?')">Delete</a></td>
             </tr>
