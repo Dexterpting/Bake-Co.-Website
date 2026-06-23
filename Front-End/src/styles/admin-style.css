@@ -436,6 +436,48 @@ tr:hover td { background: #fff9f1; }
   .filter-group { min-width: 100%; }
   .filter-btn,
   .filter-reset { width: 100%; text-align: center; }
+
+  .stats-filter {
+    padding: 16px;
+  }
+
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  .filter-group input[type="date"],
+  .filter-group select {
+    width: 100%;
+  }
+
+  .filter-btn,
+  .filter-reset {
+    width: 100%;
+    text-align: center;
+  }
+
+  .stats {
+    flex-direction: column;
+  }
+
+  .stat-card {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: .8rem;
+  }
 }
 
 /* ===== RESPONSIVE — MOBILE ===== */

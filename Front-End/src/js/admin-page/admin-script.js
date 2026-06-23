@@ -9,17 +9,19 @@ async function loadOrders() {
   }
 
   tbody.innerHTML = orders.map(row => `
-    <tr>
-      <td>${row.id}</td>
-      <td>${escapeHtml(row.name)}</td>
-      <td>${escapeHtml(row.phone)}</td>
-      <td>${escapeHtml(row.address)}</td>
-      <td>${escapeHtml(row.landmark)}</td>
-      <td>${escapeHtml(row.order_items).replace(/\n/g, '<br>')}</td>
-      <td>${row.submitted_at}</td>
-      <td><a class="delete" href="/Back-End/admin.php?delete=${row.id}&from=orders" data-id="${row.id}">Delete</a></td>
-    </tr>
-  `).join('');
+  <tr>
+    <td>${row.id}</td>
+    <td>${escapeHtml(row.name)}</td>
+    <td>${escapeHtml(row.phone)}</td>
+    <td>${escapeHtml(row.address)}</td>
+    <td>${escapeHtml(row.landmark)}</td>
+    <td>${escapeHtml(row.order_items).replace(/\n/g, '<br>')}</td>
+    <td>${row.total_qty}</td>
+    <td>${escapeHtml(row.order_units)}</td>
+    <td>${row.submitted_at}</td>
+    <td><a class="delete" href="/Back-End/admin.php?delete=${row.id}&from=orders" data-id="${row.id}">Delete</a></td>
+  </tr>
+`).join('');
 
   document.querySelector('.count').textContent = `Total: ${orders.length} order(s)`;
   attachDeleteListeners();

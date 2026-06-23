@@ -13,8 +13,17 @@ if (isset($_GET['logout'])) {
     exit;
 }
 
+// db.php moved up here so $conn is available for rate limiting
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/rate-limiter.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password'])) {
-    if ($_POST['password'] === $admin_password) {
+    $loginCheck = checkRateLimit($conn, 'admin_login', 5, 900);
+
+    if (!$loginCheck['allowed']) {
+        $minutes = ceil($loginCheck['retry_after'] / 60);
+        $error = "Too many login attempts. Please try again in {$minutes} minute(s).";
+    } elseif ($_POST['password'] === $admin_password) {
         $_SESSION['admin'] = true;
         header('Location: ' . BASE_URL . 'admin.php');
         exit;
@@ -28,8 +37,6 @@ if (!isset($_SESSION['admin'])) {
     include __DIR__ . '/../Front-End/pages/admin/login.html.php';
     exit;
 }
-
-require_once __DIR__ . '/db.php';
 
 // API endpoint
 if (isset($_GET['api'])) {
@@ -51,7 +58,7 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
-    // Delete product
+// Delete product
 if (isset($_GET['delete_product'])) {
     $id = (int) $_GET['delete_product'];
     $conn->query("DELETE FROM products WHERE id = $id");
@@ -150,16 +157,16 @@ if ($page === 'orders') {
     include '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/pages/admin/products.html.php';
 } else {
     $total_orders = $conn->query('SELECT COUNT(*) as count FROM orders')->fetch_assoc()['count'];
-    $total_sales  = $conn->query("SELECT COALESCE(SUM(total_amount), 0) as total FROM orders $stats_where")->fetch_assoc()['total'];
-    $total_boxes  = $conn->query("SELECT COALESCE(SUM(total_qty), 0) as total FROM orders $stats_where")->fetch_assoc()['total'];
 
-    // Stats filter
+    // 1. Define filters first
     $date_from = isset($_GET['date_from']) ? $conn->real_escape_string($_GET['date_from']) : '';
     $date_to   = isset($_GET['date_to'])   ? $conn->real_escape_string($_GET['date_to'])   : '';
     $filter_by = $_GET['filter_by'] ?? '';
 
-    // Build WHERE clause for stats — default is today
-    if ($filter_by === 'all') {
+    // 2. Build $stats_where
+    if ($date_from && $date_to) {
+        $stats_where = "WHERE DATE(submitted_at) BETWEEN '$date_from' AND '$date_to'";
+    } elseif ($filter_by === 'all') {
         $stats_where = '';
     } elseif ($filter_by === 'tomorrow') {
         $stats_where = "WHERE DATE(submitted_at) = DATE_ADD(CURDATE(), INTERVAL 1 DAY)";
@@ -167,10 +174,26 @@ if ($page === 'orders') {
         $stats_where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
     } elseif ($filter_by === 'month') {
         $stats_where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)";
-    } elseif ($filter_by === '' && $date_from && $date_to) {
-        $stats_where = "WHERE DATE(submitted_at) BETWEEN '$date_from' AND '$date_to'";
     } else {
         $stats_where = "WHERE DATE(submitted_at) = CURDATE()";
+    }
+
+    // 3. ONLY THEN query total_sales and unit breakdown
+    $total_sales = $conn->query("SELECT COALESCE(SUM(total_amount), 0) as total FROM orders $stats_where")->fetch_assoc()['total'];
+
+    // Get breakdown per unit type
+    $unit_breakdown = [];
+    $unit_result = $conn->query("SELECT order_units FROM orders $stats_where");
+    while ($urow = $unit_result->fetch_assoc()) {
+        $units = explode(', ', $urow['order_units']);
+        foreach ($units as $unit) {
+            $unit = trim($unit);
+            if ($unit === '') continue;
+            if (!isset($unit_breakdown[$unit])) {
+                $unit_breakdown[$unit] = 0;
+            }
+            $unit_breakdown[$unit]++;
+        }
     }
 
     // Recent orders filter
@@ -178,8 +201,9 @@ if ($page === 'orders') {
     $orders_date_to   = isset($_GET['orders_date_to'])   ? $conn->real_escape_string($_GET['orders_date_to'])   : '';
     $orders_filter    = $_GET['orders_filter'] ?? '';
 
-    // Build WHERE clause for orders — default is today
-    if ($orders_filter === 'all') {
+    if ($orders_date_from && $orders_date_to) {
+    $orders_where = "WHERE DATE(submitted_at) BETWEEN '$orders_date_from' AND '$orders_date_to'";
+    } elseif ($orders_filter === 'all') {
         $orders_where = '';
     } elseif ($orders_filter === 'tomorrow') {
         $orders_where = "WHERE DATE(submitted_at) = DATE_ADD(CURDATE(), INTERVAL 1 DAY)";
@@ -187,8 +211,6 @@ if ($page === 'orders') {
         $orders_where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
     } elseif ($orders_filter === 'month') {
         $orders_where = "WHERE submitted_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)";
-    } elseif ($orders_filter === '' && $orders_date_from && $orders_date_to) {
-        $orders_where = "WHERE DATE(submitted_at) BETWEEN '$orders_date_from' AND '$orders_date_to'";
     } else {
         $orders_where = "WHERE DATE(submitted_at) = CURDATE()";
     }
