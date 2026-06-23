@@ -18,13 +18,19 @@
       <table>
         <thead>
           <tr>
-            <th>#</th><th>Name</th><th>Phone</th>
-            <th>Address</th><th>Landmark</th>
-            <th>Order / Message</th><th>Date Order Placed</th><th></th>
+            <th>#</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Landmark</th>
+            <th>Order</th>
+            <th>Quantity</th>
+            <th>Date Order Placed</th>
+            <th></th>
           </tr>
         </thead>
         <tbody id="ordersBody">
-          <tr><td colspan="8">Loading orders...</td></tr>
+          <tr><td colspan="9">Loading orders...</td></tr>
         </tbody>
       </table>
     </div>

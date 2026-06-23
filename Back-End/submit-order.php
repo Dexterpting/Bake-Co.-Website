@@ -1,15 +1,29 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+
+    require __DIR__ . '/config.php';
 
     header('Content-Type: application/json');
     header('Access-Control-Allow-Origin: *');
 
     require __DIR__ . '/db.php';
+    require __DIR__ . '/rate-limiter.php';
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         http_response_code(405);
         echo json_encode(['success' => false, 'message' => 'Method not allowed.']);
+        exit;
+    }
+
+    // Rate limit: max 3 order submissions per 10 minutes per IP
+    $rateCheck = checkRateLimit($conn, 'submit_order', 3, 600);
+
+    if (!$rateCheck['allowed']) {
+        http_response_code(429);
+        $minutes = ceil($rateCheck['retry_after'] / 60);
+        echo json_encode([
+            'success' => false,
+            'message' => "Too many orders submitted. Please try again in {$minutes} minute(s)."
+        ]);
         exit;
     }
 
@@ -23,16 +37,33 @@ $landmark = trim($_POST['landmark'] ?? '');
 $products  = $_POST['product']  ?? [];
 $quantities = $_POST['quantity'] ?? [];
 $orderLines = [];
+$total_amount = 0;
+$total_qty    = 0;
+$unitLines = [];
 
 foreach ($products as $i => $product) {
     $product  = trim($product);
     $qty      = (int) ($quantities[$i] ?? 1);
     if ($product !== '') {
-        $orderLines[] = "x{$qty} {$product}";
+        $orderLines[]  = "x{$qty} {$product}";
+        $total_qty    += $qty;
+
+        // Look up price AND unit from products table
+        $safe_product = $conn->real_escape_string($product);
+        $price_result = $conn->query("SELECT price, unit FROM products WHERE name = '$safe_product' LIMIT 1");
+        if ($price_result && $price_result->num_rows > 0) {
+            $prod_data      = $price_result->fetch_assoc();
+            $price          = (float) $prod_data['price'];
+            $total_amount  += $price * $qty;
+            $unitLines[]    = $prod_data['unit'];
+        } else {
+            $unitLines[] = 'per box';
+        }
     }
 }
 
 $order = implode(', ', $orderLines);
+$order_units = implode(', ', $unitLines);
 
 $errors = [];
 if ($name === '')         $errors[] = 'Name is required.';
@@ -48,9 +79,9 @@ if (!empty($errors)) {
 
 // Insert into database
 $stmt = $conn->prepare(
-    'INSERT INTO orders (name, phone, address, landmark, order_items) VALUES (?, ?, ?, ?, ?)'
+    'INSERT INTO orders (name, phone, address, landmark, order_items, order_units, total_amount, total_qty) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
 );
-$stmt->bind_param('sssss', $name, $phone, $address, $landmark, $order);
+$stmt->bind_param('ssssssdi', $name, $phone, $address, $landmark, $order, $order_units, $total_amount, $total_qty);
 
 if ($stmt->execute()) {
     // Send email notification
@@ -65,14 +96,14 @@ if ($stmt->execute()) {
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'derkerpaultingal15062@gmail.com';    // your Gmail
-        $mail->Password   = 'gdnt xbuq fxyi lonx'; // Gmail App Password
+        $mail->Username   = MAIL_USER;   // your Gmail
+        $mail->Password   = MAIL_PASS;   // Gmail App Password
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
 
         // Email content
-        $mail->setFrom('derkerpaultingal15062@gmail.com', 'Bake & Co. Website'); //change to actual bake&co email address
-        $mail->addAddress('derkerpaultingal15062@gmail.com');     // where to receive notifications
+        $mail->setFrom(MAIL_USER, 'Bake & Co. Website'); //change to actual bake&co email address
+        $mail->addAddress(MAIL_TO);                    // where to receive notifications
         $mail->Subject = 'New Order Received — Bake & Co.';
         $mail->isHTML(true);
         $mail->Body = "
