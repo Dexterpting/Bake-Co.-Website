@@ -136,9 +136,30 @@
               <td><?= htmlspecialchars($row['phone']) ?></td>
               <td><?= htmlspecialchars($row['address']) ?></td>
               <td><?= htmlspecialchars($row['landmark']) ?></td>
-              <td><?= nl2br(htmlspecialchars($row['order_items'])) ?></td>
-              <td><?= $row['total_qty'] ?></td>
-              <td><?= htmlspecialchars($row['order_units']) ?></td>
+              <td>
+                <?php
+                $items = explode(', ', $row['order_items']);
+                foreach ($items as $item):
+                ?>
+                  <div><?= htmlspecialchars(trim($item)) ?></div>
+                <?php endforeach; ?>
+              </td>
+              <td>
+                <?php
+                $units = explode(', ', $row['total_qty']);
+                foreach ($units as $unit):
+                ?>
+                  <div><?= htmlspecialchars(trim($unit)) ?></div>
+                <?php endforeach; ?>
+              </td>
+              <td>
+                <?php
+                $units = explode(', ', $row['order_units']);
+                foreach ($units as $unit):
+                ?>
+                  <div><?= htmlspecialchars(trim($unit)) ?></div>
+                <?php endforeach; ?>
+              </td>
               <td><?= $row['submitted_at'] ?></td>
               <td><a class="delete" href="/Back-End/admin.php?delete=<?= $row['id'] ?>&from=dashboard" onclick="return confirm('Delete this order?')">Delete</a></td>
             </tr>
