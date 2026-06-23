@@ -64,6 +64,8 @@
         <?php endif; ?>
       </div>
 
+    </div> <!-- END stats-filter -->
+
     <!-- Quick Links -->
     <div class="quick-links">
       <h2>Quick Links</h2>
@@ -159,8 +161,9 @@
       </div>
       <?php endif; ?>
 
-    </div>
-  </div>
+    </div> <!-- END recent-orders -->
+
+  </div> <!-- END dashboard -->
 
   <script src="/Front-End/src/js/admin-page/admin-script.js"></script>
 
