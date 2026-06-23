@@ -178,9 +178,23 @@ if ($page === 'orders') {
         $stats_where = "WHERE DATE(submitted_at) = CURDATE()";
     }
 
-    // 3. ONLY THEN query total_sales and total_boxes
+    // 3. ONLY THEN query total_sales and unit breakdown
     $total_sales = $conn->query("SELECT COALESCE(SUM(total_amount), 0) as total FROM orders $stats_where")->fetch_assoc()['total'];
-    $total_boxes = $conn->query("SELECT COALESCE(SUM(total_qty), 0) as total FROM orders $stats_where")->fetch_assoc()['total'];
+
+    // Get breakdown per unit type
+    $unit_breakdown = [];
+    $unit_result = $conn->query("SELECT order_units FROM orders $stats_where");
+    while ($urow = $unit_result->fetch_assoc()) {
+        $units = explode(', ', $urow['order_units']);
+        foreach ($units as $unit) {
+            $unit = trim($unit);
+            if ($unit === '') continue;
+            if (!isset($unit_breakdown[$unit])) {
+                $unit_breakdown[$unit] = 0;
+            }
+            $unit_breakdown[$unit]++;
+        }
+    }
 
     // Recent orders filter
     $orders_date_from = isset($_GET['orders_date_from']) ? $conn->real_escape_string($_GET['orders_date_from']) : '';

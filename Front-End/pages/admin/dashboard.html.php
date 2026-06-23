@@ -49,12 +49,20 @@
           <p class="stat-label">Total Sales</p>
           <p class="stat-number">₱<?= number_format($total_sales, 2) ?></p>
         </div>
+        <?php if (empty($unit_breakdown)): ?>
         <div class="stat-card">
-          <p class="stat-label">Total Box Sold</p>
-          <p class="stat-number"><?= number_format($total_boxes) ?></p>
+          <p class="stat-label">Units Sold</p>
+          <p class="stat-number">0</p>
         </div>
+        <?php else: ?>
+        <?php foreach ($unit_breakdown as $unit => $qty): ?>
+        <div class="stat-card">
+          <p class="stat-label">Sold (<?= htmlspecialchars(ucfirst(str_replace('per ', '', $unit))) ?>)</p>
+          <p class="stat-number"><?= number_format($qty) ?></p>
+        </div>
+        <?php endforeach; ?>
+        <?php endif; ?>
       </div>
-    </div> <!-- END stats-filter -->
 
     <!-- Quick Links -->
     <div class="quick-links">
