@@ -181,18 +181,25 @@ if ($page === 'orders') {
     // 3. ONLY THEN query total_sales and unit breakdown
     $total_sales = $conn->query("SELECT COALESCE(SUM(total_amount), 0) as total FROM orders $stats_where")->fetch_assoc()['total'];
 
-    // Get breakdown per unit type
+    // Get breakdown per unit type with correct quantities
     $unit_breakdown = [];
-    $unit_result = $conn->query("SELECT order_units FROM orders $stats_where");
+    $unit_result = $conn->query("SELECT order_items, order_units FROM orders $stats_where");
     while ($urow = $unit_result->fetch_assoc()) {
+        $items = explode(', ', $urow['order_items']);
         $units = explode(', ', $urow['order_units']);
-        foreach ($units as $unit) {
-            $unit = trim($unit);
+
+        foreach ($items as $i => $item) {
+            $unit = trim($units[$i] ?? '');
             if ($unit === '') continue;
+
+            // Extract quantity from "x5 Classic Cheese Ensaymada" → 5
+            preg_match('/^x(\d+)/', trim($item), $matches);
+            $qty = isset($matches[1]) ? (int) $matches[1] : 1;
+
             if (!isset($unit_breakdown[$unit])) {
                 $unit_breakdown[$unit] = 0;
             }
-            $unit_breakdown[$unit]++;
+            $unit_breakdown[$unit] += $qty;
         }
     }
 
