@@ -98,7 +98,7 @@ if ($stmt->execute()) {
         $mail->SMTPAuth   = true;
         $mail->Username   = MAIL_USER;   // your Gmail
         $mail->Password   = MAIL_PASS;   // Gmail App Password
-        $mail->SMTPSecure = 'tls';
+        $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
         // Email content
@@ -120,7 +120,10 @@ if ($stmt->execute()) {
 
         $mail->send();
     } catch (Exception $e) {
-        // Email failed but order still saved — don't block the response
+        // Log the actual error so we can see it
+        error_log('PHPMailer Error: ' . $e->getMessage());
+        // Also store it in the response temporarily for debugging
+        file_put_contents(__DIR__ . '/mail_error.log', date('Y-m-d H:i:s') . ' - ' . $e->getMessage() . "\n", FILE_APPEND);
     }
 
     echo json_encode(['success' => true, 'message' => 'Order submitted successfully!']);
