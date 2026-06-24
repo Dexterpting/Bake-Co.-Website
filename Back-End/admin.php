@@ -50,6 +50,15 @@ if (isset($_GET['api'])) {
     exit;
 }
 
+// Latest order check endpoint
+if (isset($_GET['latest_order'])) {
+    $result = $conn->query('SELECT MAX(id) as latest FROM orders');
+    $row = $result->fetch_assoc();
+    header('Content-Type: application/json');
+    echo json_encode(['latest_id' => (int) $row['latest']]);
+    exit;
+}
+
 // Delete order
 if (isset($_GET['delete'])) {
     $id = (int) $_GET['delete'];

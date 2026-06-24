@@ -6,6 +6,14 @@
   <link rel="stylesheet" href="/Front-End/src/styles/admin-style.css">
 </head>
 <body class="dashboard-page">
+
+    <!-- New order notification banner -->
+    <div id="newOrderBanner" style="display:none; position:fixed; top:0; left:0; right:0; z-index:9999; background:#2ecc71; color:white; text-align:center; padding:12px 16px; font-size:.9rem; font-weight:700;">
+      🔔 New order received!
+      <button onclick="refreshDashboard()" style="margin-left:12px; background:white; color:#2ecc71; border:none; border-radius:6px; padding:4px 12px; cursor:pointer; font-weight:700;">Refresh Now</button>
+      <button onclick="dismissBanner()" style="margin-left:8px; background:none; border:1.5px solid white; color:white; border-radius:6px; padding:4px 12px; cursor:pointer;">Dismiss</button>
+    </div>
+
   <nav class="admin-nav">
     <h1>Bake & Co. Admin</h1>
     <a href="/Back-End/admin.php?logout=1" class="logout">Logout</a>
@@ -187,6 +195,7 @@
   </div> <!-- END dashboard -->
 
   <script src="/Front-End/src/js/admin-page/admin-script.js"></script>
+  <script src="/Front-End/src/js/admin-page/dashboard-refresher.js"></script>
 
 </body>
 </html>
