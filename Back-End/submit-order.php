@@ -32,6 +32,7 @@ $name     = trim($_POST['name']     ?? '');
 $phone    = trim($_POST['number']   ?? '');
 $address  = trim($_POST['address']  ?? '');
 $landmark = trim($_POST['landmark'] ?? '');
+$delivery_date = trim($_POST['delivery_date'] ?? '');
 
 // Build order summary from product and quantity arrays
 $products  = $_POST['product']  ?? [];
@@ -70,6 +71,7 @@ if ($name === '')         $errors[] = 'Name is required.';
 if ($phone === '')        $errors[] = 'Phone number is required.';
 if ($address === '')      $errors[] = 'Address is required.';
 if (empty($orderLines))   $errors[] = 'At least one product is required.';
+if ($delivery_date === '') $errors[] = 'Delivery date is required.';
 
 if (!empty($errors)) {
     http_response_code(422);
@@ -79,9 +81,9 @@ if (!empty($errors)) {
 
 // Insert into database
 $stmt = $conn->prepare(
-    'INSERT INTO orders (name, phone, address, landmark, order_items, order_units, total_amount, total_qty) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    'INSERT INTO orders (name, phone, address, landmark, delivery_date, order_items, order_units, total_amount, total_qty) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
 );
-$stmt->bind_param('ssssssdi', $name, $phone, $address, $landmark, $order, $order_units, $total_amount, $total_qty);
+$stmt->bind_param('sssssssdi', $name, $phone, $address, $landmark, $delivery_date, $order, $order_units, $total_amount, $total_qty);
 
 if ($stmt->execute()) {
     // Send email notification
@@ -114,6 +116,7 @@ if ($stmt->execute()) {
                 <tr><td style='padding:8px;font-weight:bold;'>Address</td><td style='padding:8px;'>{$address}</td></tr>
                 <tr style='background:#f9f9f9;'><td style='padding:8px;font-weight:bold;'>Landmark</td><td style='padding:8px;'>{$landmark}</td></tr>
                 <tr><td style='padding:8px;font-weight:bold;'>Order</td><td style='padding:8px;'>{$order}</td></tr>
+                <tr style='background:#f9f9f9;'><td style='padding:8px;font-weight:bold;'>Delivery Date</td><td style='padding:8px;'>{$delivery_date}</td></tr>
             </table>
             <p style='margin-top:16px;color:#7b6553;font-size:.85rem;'>View all orders at your <a href='https://bake-co.infinityfree.me/Back-End/admin.php'>admin panel</a>.</p>
         ";

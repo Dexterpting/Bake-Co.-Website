@@ -19,6 +19,7 @@ async function loadOrders() {
       <td>${escapeHtml(row.phone)}</td>
       <td>${escapeHtml(row.address)}</td>
       <td>${escapeHtml(row.landmark)}</td>
+      <td>${escapeHtml(row.delivery_date ?? '')}</td>
       <td>${items}</td>
       <td>${row.total_qty}</td>
       <td>${units}</td>
