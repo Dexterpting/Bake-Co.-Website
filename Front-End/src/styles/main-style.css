@@ -87,6 +87,25 @@ nav ul li a::after {
   transition: width var(--transition);
 }
 
+.nav-order-btn {
+  background: var(--accent) !important;
+  color: var(--white) !important;
+  padding: 7px 18px !important;
+  border-radius: 20px !important;
+  font-weight: 700 !important;
+  letter-spacing: .04em !important;
+  transition: background var(--transition), transform var(--transition) !important;
+}
+
+.nav-order-btn:hover {
+  background: var(--accent-hover) !important;
+  transform: translateY(-1px) !important;
+}
+
+.nav-order-btn::after {
+  display: none !important;
+}
+
 nav ul li a:hover { color: var(--accent); }
 nav ul li a:hover::after { width: 100%; }
 

@@ -12,7 +12,7 @@
         <ul id="navMenu">
             <li><a href="#products-section">Menu</a></li>
             <li><a href="#review-section">Reviews</a></li>
-            <li><a href="#contact-section">Order Now !</a></li>
+            <li><a href="#products-section" class="nav-order-btn">Order Now !</a></li>
         </ul>
         <button class="nav-hamburger" id="navToggle" aria-label="Open menu">&#9776;</button>
     </nav>
