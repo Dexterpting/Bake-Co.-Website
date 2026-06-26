@@ -11,8 +11,8 @@ async function initPolling() {
     console.error('Failed to get latest order ID:', e);
   }
 
-  // Poll every 30 seconds
-  pollInterval = setInterval(checkNewOrders, 30000);
+  // Poll every 5 seconds
+  pollInterval = setInterval(checkNewOrders, 5000);
 }
 
 async function checkNewOrders() {
