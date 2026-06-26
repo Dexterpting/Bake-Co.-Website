@@ -12,7 +12,7 @@
         <ul id="navMenu">
             <li><a href="#products-section">Menu</a></li>
             <li><a href="#review-section">Reviews</a></li>
-            <li><a href="#contact-section">Order Now !</a></li>
+            <li><a href="#products-section" class="nav-order-btn">Order Now !</a></li>
         </ul>
         <button class="nav-hamburger" id="navToggle" aria-label="Open menu">&#9776;</button>
     </nav>
@@ -142,6 +142,10 @@
             <input type="tel" name="number" placeholder="Phone Number"/>
             <input type="text" name="address" placeholder="Location for delivery"/>
             <input type="text" name="landmark" placeholder="Landmark for the delivery location">
+            <div class="form-date-group">
+                <label style="font-size:.82rem;color: #3D2A1A;">Preferred Delivery Date</label>
+                <input type="date" name="delivery_date" required min="<?= date('Y-m-d', strtotime('+1 day')) ?>">
+            </div>
             <div id="modal-order-items">
                 <div class="order-item">
                     <select name="product[]" required id="modalProductSelect">

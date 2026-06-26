@@ -126,10 +126,10 @@
               <th>Phone</th>
               <th>Address</th>
               <th>Landmark</th>
+              <th>Date Order Placed</th>
               <th>Order</th>
               <th>Quantity</th>
               <th>Unit Sold</th>
-              <th>Date Order Placed</th>
               <th></th>
             </tr>
           </thead>
@@ -144,6 +144,7 @@
               <td><?= htmlspecialchars($row['phone']) ?></td>
               <td><?= htmlspecialchars($row['address']) ?></td>
               <td><?= htmlspecialchars($row['landmark']) ?></td>
+              <td><?= htmlspecialchars($row['delivery_date']) ?></td>
               <td>
                 <?php
                 $items = explode(', ', $row['order_items']);
