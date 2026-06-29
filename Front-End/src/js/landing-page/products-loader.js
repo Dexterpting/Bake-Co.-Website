@@ -1,5 +1,5 @@
-const BACKEND   = 'https://bake-co.infinityfree.me/Back-End';
-const ASSETS    = 'https://bake-co.infinityfree.me/Front-End/src/img';
+const BACKEND = 'https://bake-co.infinityfree.me/Back-End';
+const ASSETS  = 'https://bake-co.infinityfree.me/Front-End/src/img';
 
 const CATEGORY_LABELS = {
   pastries:     'Sweet Breads / Pastries',
@@ -10,7 +10,7 @@ const CATEGORY_LABELS = {
 
 async function loadProducts() {
   try {
-    const response = await fetch(`${BACKEND}/admin.php?products_api=1`);
+    const response = await fetch(`${BACKEND}/products-api.php`);
     const products = await response.json();
 
     const container = document.getElementById('productsInner');
