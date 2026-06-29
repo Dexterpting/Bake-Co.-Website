@@ -91,6 +91,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install latest Vercel CLI
+        run: npm i -g vercel@latest
+
       - name: Deploy to Vercel Production
         uses: amondnet/vercel-action@v25
         with:
