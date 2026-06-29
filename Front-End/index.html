@@ -12,7 +12,7 @@
         <ul id="navMenu">
             <li><a href="#products-section">Menu</a></li>
             <li><a href="#review-section">Reviews</a></li>
-            <li><a href="#contact-section">Order Now !</a></li>
+            <li><a href="#products-section" class="nav-order-btn">Order Now !</a></li>
         </ul>
         <button class="nav-hamburger" id="navToggle" aria-label="Open menu">&#9776;</button>
     </nav>
@@ -42,21 +42,8 @@
   </select>
 </div>
 
-<div class="products-inner">
-  <?php
-    require_once __DIR__ . '/../Back-End/db.php';
-    $result = $conn->query('SELECT * FROM products ORDER BY category, id ASC');
-    while ($row = $result->fetch_assoc()):
-      $imgPath = './src/img/' . htmlspecialchars($row['image']);
-  ?>
-  <div class="card" data-category="<?= htmlspecialchars($row['category']) ?>">
-    <h2><?= htmlspecialchars($row['name']) ?></h2>
-    <img src="./src/img/<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>">
-    <p><?= htmlspecialchars($row['description']) ?></p>
-    <p class="card-price">₱<?= number_format($row['price'], 2) ?> <span class="card-unit"><?= htmlspecialchars($row['unit']) ?></span></p>
-    <button onclick="openOrderModal('<?= htmlspecialchars($row['name']) ?>')">Order Now</button>
-  </div>
-  <?php endwhile; ?>
+<div class="products-inner" id="productsInner">
+  <p style="color:var(--text-muted);text-align:center;width:100%;padding:32px 0;">Loading products...</p>
 </div>
 </section>
 
@@ -101,26 +88,6 @@
                 <div class="order-item">
                     <select name="product[]" required>
                         <option value="">Select a product</option>
-                        <?php
-                        $prodResult2 = $conn->query('SELECT name, category FROM products ORDER BY category, name ASC');
-                        $currentCategory2 = '';
-                        while ($prod = $prodResult2->fetch_assoc()):
-                            if ($prod['category'] !== $currentCategory2):
-                                if ($currentCategory2 !== '') echo '</optgroup>';
-                                $currentCategory2 = $prod['category'];
-                                $labels = [
-                                    'pastries'    => 'Sweet Breads / Pastries',
-                                    'cheese'      => 'Cheese Cakes',
-                                    'moist'       => 'Moist Cakes',
-                                    'custom-made' => 'Custom Made Order'
-                                ];
-                                $label = $labels[$currentCategory2] ?? $currentCategory2;
-                                echo "<optgroup label='{$label}'>";
-                            endif;
-                            echo "<option value='" . htmlspecialchars($prod['name']) . "'>" . htmlspecialchars($prod['name']) . "</option>";
-                        endwhile;
-                        if ($currentCategory2 !== '') echo '</optgroup>';
-                        ?>
                     </select>
                     <input type="number" name="quantity[]" placeholder="Qty" min="1" value="1"/>
                     <button type="button" class="remove-item-btn" onclick="removeItem(this)">✕</button>
@@ -142,24 +109,14 @@
             <input type="tel" name="number" placeholder="Phone Number"/>
             <input type="text" name="address" placeholder="Location for delivery"/>
             <input type="text" name="landmark" placeholder="Landmark for the delivery location">
+            <div class="form-date-group">
+                <label style="font-size:.82rem;color: #3D2A1A;">Preferred Delivery Date</label>
+                <input type="date" name="delivery_date" required min="<?= date('Y-m-d', strtotime('+1 day')) ?>">
+            </div>
             <div id="modal-order-items">
                 <div class="order-item">
-                    <select name="product[]" required id="modalProductSelect">
+                    <select name="product[]" required>
                         <option value="">Select a product</option>
-                        <?php
-                        $prodResult3 = $conn->query('SELECT name, category FROM products ORDER BY category, name ASC');
-                        $currentCategory3 = '';
-                        while ($prod = $prodResult3->fetch_assoc()):
-                            if ($prod['category'] !== $currentCategory3):
-                                if ($currentCategory3 !== '') echo '</optgroup>';
-                                $currentCategory3 = $prod['category'];
-                                $label = $labels[$currentCategory3] ?? $currentCategory3;
-                                echo "<optgroup label='{$label}'>";
-                            endif;
-                            echo "<option value='" . htmlspecialchars($prod['name']) . "'>" . htmlspecialchars($prod['name']) . "</option>";
-                        endwhile;
-                        if ($currentCategory3 !== '') echo '</optgroup>';
-                        ?>
                     </select>
                     <input type="number" name="quantity[]" placeholder="Qty" min="1" value="1"/>
                     <button type="button" class="remove-item-btn" onclick="removeModalItem(this)">✕</button>
@@ -172,6 +129,7 @@
 </div>
 
     <script src="./src/js/landing-page/phone-nav-script.js"></script>
+    <script src="./src/js/landing-page/products-loader.js"></script>
     <script src="./src/js/landing-page/multi-prod-script.js"></script>
     <script src="./src/js/landing-page/contact-script.js"></script>
 

@@ -23,6 +23,7 @@
             <th>Phone</th>
             <th>Address</th>
             <th>Landmark</th>
+            <th>Delivery Date</th>
             <th>Order</th>
             <th>Quantity</th>
             <th>Date Order Placed</th>
