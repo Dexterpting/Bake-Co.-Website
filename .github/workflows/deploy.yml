@@ -1,0 +1,98 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, test]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ─── CI — runs on every push to test and main ───────────────
+  validate:
+    name: Validate Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: php-cs-fixer
+
+      - name: Check PHP syntax — Back-End files
+        run: |
+          find Back-End -name "*.php" ! -name "db.php" ! -name "config.php" | while read file; do
+            php -l "$file" || exit 1
+          done
+          echo "✅ All PHP files passed syntax check"
+
+      - name: Check JS syntax — Front-End files
+        run: |
+          find Front-End/src/js -name "*.js" | while read file; do
+            node --check "$file" || exit 1
+          done
+          echo "✅ All JS files passed syntax check"
+
+      - name: Check for sensitive data in code
+        run: |
+          echo "Checking for hardcoded credentials..."
+          if grep -r "define('DB_PASS'" Back-End/ --include="*.php" | grep -v "config.php" | grep -v "db.example.php"; then
+            echo "❌ Hardcoded DB_PASS found outside config.php"
+            exit 1
+          fi
+          if grep -r "define('MAIL_PASS'" Back-End/ --include="*.php" | grep -v "config.php"; then
+            echo "❌ Hardcoded MAIL_PASS found outside config.php"
+            exit 1
+          fi
+          echo "✅ No hardcoded credentials found"
+
+      - name: Check HTML structure
+        run: |
+          find Front-End -name "*.html" | while read file; do
+            if ! grep -q "<!DOCTYPE html>" "$file"; then
+              echo "❌ Missing DOCTYPE in $file"
+              exit 1
+            fi
+          done
+          echo "✅ HTML files passed structure check"
+
+  # ─── CD — only runs when CI passes ──────────────────────────
+  deploy-preview:
+    name: Deploy Preview (test branch)
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/test'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel Preview
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: Front-End
+
+  deploy-production:
+    name: Deploy Production (main branch)
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel Production
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: Front-End
