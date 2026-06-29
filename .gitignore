@@ -3,3 +3,5 @@ Back-End/config.php
 Back-End/mail_error.log
 
 Bake&Co.txt
+.vercel
+.env*
