@@ -1,7 +1,12 @@
+//Sensetive Data
+
 Back-End/db.php
 Back-End/config.php
 Back-End/mail_error.log
+Back-End/.htaccess
 
 Bake&Co.txt
+
+
 .vercel
 .env*
