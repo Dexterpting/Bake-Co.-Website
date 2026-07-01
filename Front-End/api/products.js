@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 export default async function handler(req, res) {
   const response = await fetch('https://bake-co.infinityfree.me/Back-End/products-api.php', {
     headers: {
