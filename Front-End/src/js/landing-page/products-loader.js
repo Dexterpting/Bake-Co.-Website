@@ -10,7 +10,7 @@ const CATEGORY_LABELS = {
 
 async function loadProducts() {
   try {
-    const response = await fetch('/api/products');
+    const response = await fetch(`${BACKEND}/products-api.php`);
     const products = await response.json();
 
     const container = document.getElementById('productsInner');
