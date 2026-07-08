@@ -59,19 +59,6 @@ if (isset($_GET['latest_order'])) {
     exit;
 }
 
-// Products API — public, no auth needed
-if (isset($_GET['products_api'])) {
-    $result = $conn->query('SELECT name, description, category, price, unit, image FROM products ORDER BY category, id ASC');
-    $products = [];
-    while ($row = $result->fetch_assoc()) {
-        $products[] = $row;
-    }
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Origin: *');
-    echo json_encode($products);
-    exit;
-}
-
 // Delete order
 if (isset($_GET['delete'])) {
     $id = (int) $_GET['delete'];
