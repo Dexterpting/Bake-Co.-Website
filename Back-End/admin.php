@@ -4,9 +4,6 @@ session_start();
 require_once __DIR__ . '/config.php';
 $admin_password = ADMIN_PASS;
 
-define('BASE_URL', 'https://bake-co.infinityfree.me/Back-End/');
-define('ASSET_URL', 'https://bake-co.infinityfree.me/Front-End/');
-
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: ' . BASE_URL . 'admin.php');
@@ -59,19 +56,6 @@ if (isset($_GET['latest_order'])) {
     exit;
 }
 
-// Products API — public, no auth needed
-if (isset($_GET['products_api'])) {
-    $result = $conn->query('SELECT name, description, category, price, unit, image FROM products ORDER BY category, id ASC');
-    $products = [];
-    while ($row = $result->fetch_assoc()) {
-        $products[] = $row;
-    }
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Origin: *');
-    echo json_encode($products);
-    exit;
-}
-
 // Delete order
 if (isset($_GET['delete'])) {
     $id = (int) $_GET['delete'];
@@ -107,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_product'])) {
         $origName   = basename($_FILES['prod_image']['name']);
         $ext        = pathinfo($origName, PATHINFO_EXTENSION);
         $newName    = uniqid('product_') . '.' . $ext;
-        $uploadPath = '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/src/img/' . $newName;
+        $uploadPath = '/home/vol17_1/infinityfree.com/if0_42368300/htdocs/Front-End/src/img/' . $newName;
 
         if (in_array($fileType, $allowed) && $fileSize <= $maxSize) {
             if (move_uploaded_file($tmpName, $uploadPath)) {
@@ -148,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
         $origName    = basename($_FILES['prod_image']['name']);
         $ext         = pathinfo($origName, PATHINFO_EXTENSION);
         $newName     = uniqid('product_') . '.' . $ext;
-        $uploadPath  = '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/src/img/' . $newName;
+        $uploadPath  = '/home/vol17_1/infinityfree.com/if0_42368300/htdocs/Front-End/src/img/' . $newName;
 
         if (in_array($fileType, $allowed) && $fileSize <= $maxSize) {
             if (move_uploaded_file($tmpName, $uploadPath)) {
@@ -173,10 +157,10 @@ $page = $_GET['page'] ?? 'dashboard';
 
 if ($page === 'orders') {
     $result = $conn->query('SELECT * FROM orders ORDER BY submitted_at DESC');
-    include '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/pages/admin/orders.html.php';
+    include '/home/vol17_1/infinityfree.com/if0_42368300/htdocs/Front-End/pages/admin/orders.html.php';
 } elseif ($page === 'products') {
     $products = $conn->query('SELECT * FROM products ORDER BY category, created_at DESC');
-    include '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/pages/admin/products.html.php';
+    include '/home/vol17_1/infinityfree.com/if0_42368300/htdocs/Front-End/pages/admin/products.html.php';
 } else {
     $total_orders = $conn->query('SELECT COUNT(*) as count FROM orders')->fetch_assoc()['count'];
 
@@ -248,6 +232,6 @@ if ($page === 'orders') {
     $total_recent = $conn->query("SELECT COUNT(*) as count FROM orders $orders_where")->fetch_assoc()['count'];
     $recent       = $conn->query("SELECT * FROM orders $orders_where ORDER BY submitted_at DESC LIMIT $recent_limit");
 
-    include '/home/vol9_4/infinityfree.com/if0_42065544/htdocs/Front-End/pages/admin/dashboard.html.php';
+    include '/home/vol17_1/infinityfree.com/if0_42368300/htdocs/Front-End/pages/admin/dashboard.html.php';
 }
 ?>
